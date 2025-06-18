@@ -49,7 +49,7 @@ def obtener_conexion_segura():
     Función helper para obtener conexión con manejo de errores.
     """
     try:
-        conn = conectar_mysql()
+        conn = obtener_conexion_segura()
         if conn is None:
             raise Exception("No se pudo conectar a la base de datos")
         return conn
@@ -66,71 +66,92 @@ def root(request: Request):
 @router.get("/productos", response_class=HTMLResponse)
 def vista_productos(request: Request, tipo: Optional[str] = Query(None)):
     """
-    Página principal de productos. Muestra solo productos con imagen y tipo 'local'.
+    Página principal de productos con manejo de errores de conexión.
     """
-    conn = conectar_mysql()
-    cursor = conn.cursor(dictionary=True)
+    try:
+        # Usar la función segura de conexión
+        conn = obtener_conexion_segura()
+        cursor = conn.cursor(dictionary=True)
 
-    # Base query con condiciones
-    base_query = """
-        SELECT 
-            id,
-            nombre,
-            precio_venta,
-            precio_descuento,
-            img_1 AS imagen,
-            descripcion_producto,
-            tipo_producto,
-            material,
-            colores_disponibles,
-            dimensiones,
-            tiempo_entrega,
-            visitas
-        FROM productos
-        WHERE tipo_producto_venta = 'local'
-          AND img_1 IS NOT NULL AND img_1 != ''
-    """
+        # Base query con condiciones
+        base_query = """
+            SELECT 
+                id,
+                nombre,
+                precio_venta,
+                precio_descuento,
+                img_1 AS imagen,
+                descripcion_producto,
+                tipo_producto,
+                material,
+                colores_disponibles,
+                dimensiones,
+                tiempo_entrega,
+                visitas
+            FROM productos
+            WHERE tipo_producto_venta = 'local'
+              AND img_1 IS NOT NULL AND img_1 != ''
+        """
 
-    # Agregar filtro por tipo si corresponde
-    if tipo:
-        base_query += f" AND tipo_producto LIKE '%{tipo}%'"
+        # Agregar filtro por tipo si corresponde
+        if tipo:
+            base_query += f" AND tipo_producto LIKE '%{tipo}%'"
 
-    base_query += " ORDER BY COALESCE(visitas, 0) DESC, precio_venta ASC"
+        base_query += " ORDER BY COALESCE(visitas, 0) DESC, precio_venta ASC"
 
-    cursor.execute(base_query)
-    productos = cursor.fetchall()
+        cursor.execute(base_query)
+        productos = cursor.fetchall()
 
-    # Procesar URLs de imágenes
-    for producto in productos:
-        if producto.get('imagen'):
-            producto['imagen'] = procesar_url_imagen(producto['imagen'])
+        # Procesar URLs de imágenes con manejo de errores
+        for producto in productos:
+            try:
+                if producto.get('imagen'):
+                    producto['imagen'] = procesar_url_imagen(producto['imagen'])
+            except Exception as e:
+                print(f"Error procesando imagen para producto {producto.get('id')}: {e}")
+                producto['imagen'] = "/static/images/no-image.jpg"
 
-    cursor.close()
-    conn.close()
+        cursor.close()
+        conn.close()
 
-    # Título dinámico
-    titulo_pagina = "Todos los Productos"
-    descripcion = "Descubre nuestra colección completa de muebles premium"
+        # Título dinámico
+        titulo_pagina = "Todos los Productos"
+        descripcion = "Descubre nuestra colección completa de muebles premium"
 
-    if tipo:
-        if tipo.lower() == "camas":
-            titulo_pagina = "Camas"
-            descripcion = "Camas cómodas para el descanso perfecto"
-        elif tipo.lower() == "seccionales":
-            titulo_pagina = "Sofás Seccionales"
-            descripcion = "Sofás seccionales modulares para espacios amplios"
-        elif tipo.lower() == "sofas":
-            titulo_pagina = "Sofás"
-            descripcion = "Sofás cómodos y elegantes para tu hogar"
+        if tipo:
+            if tipo.lower() == "camas":
+                titulo_pagina = "Camas"
+                descripcion = "Camas cómodas para el descanso perfecto"
+            elif tipo.lower() == "seccionales":
+                titulo_pagina = "Sofás Seccionales"
+                descripcion = "Sofás seccionales modulares para espacios amplios"
+            elif tipo.lower() == "sofas":
+                titulo_pagina = "Sofás"
+                descripcion = "Sofás cómodos y elegantes para tu hogar"
 
-    return request.app.state.templates.TemplateResponse("productos.html", {
-        "request": request,
-        "productos": productos,
-        "titulo_pagina": titulo_pagina,
-        "descripcion": descripcion,
-        "filtro_activo": tipo,
-        "now": datetime.now
-    })
+        return request.app.state.templates.TemplateResponse("productos.html", {
+            "request": request,
+            "productos": productos,
+            "titulo_pagina": titulo_pagina,
+            "descripcion": descripcion,
+            "filtro_activo": tipo,
+            "now": datetime.now
+        })
+
+    except HTTPException:
+        # Re-lanzar HTTPException (ya manejada por obtener_conexion_segura)
+        raise
+    except Exception as e:
+        print(f"Error inesperado en vista_productos: {e}")
+        import traceback
+        traceback.print_exc()
+        
+        # Retornar página de error amigable
+        return request.app.state.templates.TemplateResponse("inicio.html", {
+            "request": request,
+            "error_message": f"Error cargando productos: {str(e)}",
+            "now": datetime.now
+        })
 
 
 
@@ -161,7 +182,7 @@ def vista_publica_ecomerce(request: Request):
     """
     Página pública del ecommerce que muestra el catálogo de productos.
     """
-    conn = conectar_mysql()
+    conn = obtener_conexion_segura()
     cursor = conn.cursor(dictionary=True)
 
     # Consulta productos básicos - todos excepto externos
@@ -204,7 +225,7 @@ def vista_sofas(request: Request, categoria: Optional[str] = Query(None)):
     """
     Página específica de sofás.
     """
-    conn = conectar_mysql()
+    conn = obtener_conexion_segura()
     cursor = conn.cursor(dictionary=True)
 
     # Filtrar por tipo de producto y nombre - todos excepto externos
@@ -254,7 +275,7 @@ def vista_seccionales(request: Request):
     """
     Página específica de sofás seccionales.
     """
-    conn = conectar_mysql()
+    conn = obtener_conexion_segura()
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("""
@@ -295,7 +316,7 @@ def vista_decoracion(request: Request):
     """
     Página específica de decoración.
     """
-    conn = conectar_mysql()
+    conn = obtener_conexion_segura()
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("""
@@ -338,7 +359,7 @@ def vista_producto_detalle(request: Request, producto_id: int):
     """
     Página de detalle de un producto específico (solo local con imagen).
     """
-    conn = conectar_mysql()
+    conn = obtener_conexion_segura()
     cursor = conn.cursor(dictionary=True)
 
     # Obtener producto específico con todos los detalles
@@ -435,7 +456,7 @@ def buscar_productos(request: Request, q: Optional[str] = Query(None)):
     productos = []
     
     if q and len(q.strip()) >= 2:
-        conn = conectar_mysql()
+        conn = obtener_conexion_segura()
         cursor = conn.cursor(dictionary=True)
 
         # Búsqueda mejorada en múltiples campos - no externos
@@ -499,7 +520,7 @@ async def productos_por_tipo(tipo: str):
     """
     API para obtener productos filtrados por tipo.
     """
-    conn = conectar_mysql()
+    conn = obtener_conexion_segura()
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("""
@@ -529,7 +550,7 @@ async def estadisticas_productos():
     """
     Endpoint para obtener estadísticas de productos.
     """
-    conn = conectar_mysql()
+    conn = obtener_conexion_segura()
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("""
@@ -653,7 +674,7 @@ async def procesar_venta_checkout(venta_data: dict):
     Procesar una venta desde el checkout.
     """
     try:
-        conn = conectar_mysql()
+        conn = obtener_conexion_segura()
         cursor = conn.cursor()
         
         # Insertar la venta
