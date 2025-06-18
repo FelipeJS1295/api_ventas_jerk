@@ -11,6 +11,8 @@ app = FastAPI()
 # Archivos estáticos
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+app.mount("/images", StaticFiles(directory="/var/www/v4_python_jerk/static/images"), name="images")
+
 # Configurar templates con función `now` global
 templates = Jinja2Templates(directory="templates")
 templates.env.globals['now'] = datetime.now  # 👈 ESTA LÍNEA ES CLAVE

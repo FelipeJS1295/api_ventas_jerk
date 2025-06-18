@@ -14,6 +14,31 @@ from pathlib import Path
 
 router = APIRouter()
 
+def procesar_url_imagen(img_path):
+    """
+    Convierte rutas de imagen del otro proyecto a URLs accesibles
+    """
+    if not img_path:
+        return "/static/images/no-image.jpg"
+    
+    # Si ya es una URL completa
+    if img_path.startswith('http'):
+        return img_path
+    
+    # Limpiar la ruta
+    clean_path = img_path
+    
+    # Remover prefijos comunes que pueden estar en la BD
+    prefixes = ['/static/images/', 'static/images/', '/images/', 'images/', 'productos/']
+    for prefix in prefixes:
+        if clean_path.startswith(prefix):
+            clean_path = clean_path[len(prefix):]
+            break
+    
+    # Retornar URL usando el mount /images que apunta al otro proyecto
+    return f"/images/{clean_path}"
+
+
 UPLOAD_DIR = Path("/var/www/v4_python_jerk/static/images/productos")
 THUMBNAILS_DIR = Path("/var/www/v4_python_jerk/static/images/productos/thumbnails")
 TEMP_DIR = Path("/var/www/v4_python_jerk/uploads/temp")
@@ -74,6 +99,11 @@ def vista_productos(request: Request, tipo: Optional[str] = Query(None)):
 
     cursor.execute(base_query)
     productos = cursor.fetchall()
+
+    # Procesar URLs de imágenes
+    for producto in productos:
+        if producto.get('imagen'):
+            producto['imagen'] = procesar_url_imagen(producto['imagen'])
 
     cursor.close()
     conn.close()
@@ -153,6 +183,11 @@ def vista_publica_ecomerce(request: Request):
         LIMIT 20
     """)
     productos = cursor.fetchall()
+
+    # Procesar URLs de imágenes
+    for producto in productos:
+        if producto.get('imagen'):
+            producto['imagen'] = procesar_url_imagen(producto['imagen'])
 
     cursor.close()
     conn.close()
@@ -332,6 +367,12 @@ def vista_producto_detalle(request: Request, producto_id: int):
     """, (producto_id,))
     
     producto = cursor.fetchone()
+    
+    if producto:
+        for i in range(1, 6):
+            img_key = f'img_{i}'
+            if producto.get(img_key):
+                producto[img_key] = procesar_url_imagen(producto[img_key])
 
     if not producto:
         cursor.close()
@@ -369,6 +410,10 @@ def vista_producto_detalle(request: Request, producto_id: int):
     """, (producto['tipo_producto'], producto_id))
     
     productos_relacionados = cursor.fetchall()
+    
+    for producto_rel in productos_relacionados:
+        if producto_rel.get('imagen'):
+            producto_rel['imagen'] = procesar_url_imagen(producto_rel['imagen'])
 
     cursor.close()
     conn.close()
