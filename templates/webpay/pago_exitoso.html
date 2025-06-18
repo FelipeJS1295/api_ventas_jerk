@@ -1,0 +1,179 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}Pago Exitoso - Jerk Home{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-b from-[#1a0e0a] to-[#0d0603] text-white py-24 flex items-center">
+  <div class="max-w-2xl mx-auto px-6 text-center">
+    
+    <!-- Icono de éxito animado -->
+    <div class="mb-8">
+      <div class="w-32 h-32 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+        <i class="fas fa-check text-6xl text-green-600"></i>
+      </div>
+      <div class="w-24 h-2 bg-green-600 rounded-full mx-auto"></div>
+    </div>
+    
+    <!-- Mensaje principal -->
+    <div class="mb-12">
+      <h1 class="text-5xl font-bold text-white mb-4">¡Pago Exitoso!</h1>
+      <p class="text-xl text-gray-300 mb-8">
+        Tu pago ha sido procesado correctamente a través de WebPay Plus.
+      </p>
+      
+      <!-- Detalles de la transacción -->
+      <div class="bg-dark-800/50 rounded-2xl p-8 mb-8 border border-gray-700">
+        <h3 class="text-2xl font-semibold text-white mb-6 flex items-center justify-center gap-3">
+          <i class="fas fa-receipt text-green-400"></i>
+          Detalles del Pago
+        </h3>
+        
+        <div class="grid md:grid-cols-2 gap-6 text-left">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center py-2 border-b border-gray-600">
+              <span class="text-gray-400">Número de Orden:</span>
+              <span class="font-mono text-green-400 font-semibold">{{ orden }}</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-gray-600">
+              <span class="text-gray-400">Monto Pagado:</span>
+              <span class="text-2xl font-bold text-white">${{ "{:,.0f}".format(monto) }}</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-gray-600">
+              <span class="text-gray-400">Fecha:</span>
+              <span class="text-white">{{ fecha }}</span>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center py-2 border-b border-gray-600">
+              <span class="text-gray-400">Código Autorización:</span>
+              <span class="font-mono text-green-400">{{ codigo_autorizacion }}</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-gray-600">
+              <span class="text-gray-400">Tipo de Pago:</span>
+              <span class="text-white">{{ tipo_pago }}</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-gray-600">
+              <span class="text-gray-400">Estado:</span>
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg text-sm font-medium">
+                <i class="fas fa-check-circle mr-1"></i>Aprobado
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Información importante -->
+    <div class="bg-blue-900/30 rounded-2xl p-6 mb-8 border border-blue-500/30">
+      <h3 class="text-lg font-semibold text-blue-300 mb-4">Información Importante</h3>
+      <div class="grid md:grid-cols-2 gap-4 text-sm text-blue-200">
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-envelope text-blue-400"></i>
+          <span>Recibirás confirmación por email</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-truck text-blue-400"></i>
+          <span>Te contactaremos para coordinar entrega</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-tools text-blue-400"></i>
+          <span>Instalación profesional incluida</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-shield-alt text-blue-400"></i>
+          <span>Garantía de 2 años</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Acciones -->
+    <div class="space-y-4">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/productos" class="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center justify-center">
+          <i class="fas fa-shopping-bag mr-2"></i>
+          Seguir Comprando
+        </a>
+        <a href="/contacto" class="bg-dark-700 hover:bg-dark-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center justify-center">
+          <i class="fas fa-headset mr-2"></i>
+          Contacto
+        </a>
+      </div>
+      
+      <!-- Botón WhatsApp -->
+      <button onclick="contactWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center justify-center">
+        <i class="fab fa-whatsapp mr-2"></i>
+        Consultas por WhatsApp
+      </button>
+      
+      <!-- Botón Imprimir/Descargar -->
+      <button onclick="window.print()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center">
+        <i class="fas fa-print mr-2"></i>
+        Imprimir Comprobante
+      </button>
+    </div>
+    
+    <!-- Información de contacto -->
+    <div class="mt-12 text-sm text-gray-400">
+      <p class="mb-2">¿Necesitas ayuda? Contáctanos:</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="flex items-center justify-center space-x-2">
+          <i class="fas fa-phone"></i>
+          <span>+56 9 3253 8029</span>
+        </div>
+        <div class="flex items-center justify-center space-x-2">
+          <i class="fas fa-envelope"></i>
+          <span>contacto@jerkhome.cl</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Nota legal -->
+    <div class="mt-8 text-xs text-gray-500 border-t border-gray-700 pt-6">
+      <p>
+        Este comprobante de pago es válido y ha sido procesado a través de WebPay Plus de Transbank.
+        Conserva este comprobante para futuras referencias.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+function contactWhatsApp() {
+  const orderNumber = '{{ orden }}';
+  const message = encodeURIComponent(`Hola, tengo consultas sobre mi pedido #${orderNumber} que acabo de pagar exitosamente.`);
+  window.open(`https://wa.me/56932538029?text=${message}`, '_blank');
+}
+
+// Limpiar carrito después de pago exitoso
+localStorage.removeItem('carrito');
+
+// Actualizar contador del carrito
+const cartCounters = document.querySelectorAll('[data-cart-counter], .cart-counter, #cart-counter');
+cartCounters.forEach(counter => {
+  if (counter) counter.textContent = '0';
+});
+</script>
+
+<style>
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable, .printable * {
+    visibility: visible;
+  }
+  .printable {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  /* Ocultar elementos no necesarios en impresión */
+  button, .no-print {
+    display: none !important;
+  }
+}
+</style>
+{% endblock %}

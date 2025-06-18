@@ -1,0 +1,444 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}Inicio - Jerk Home{% endblock %}
+
+{% block description %}Descubre los mejores sofás seccionales y muebles premium. Diseño contemporáneo, calidad excepcional y experiencia de lujo en Jerk Home.{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section Premium -->
+<section class="min-h-screen flex items-center hero-pattern relative pt-20">
+  <div class="max-w-7xl mx-auto px-6 w-full">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      
+      <!-- Contenido hero -->
+      <div class="space-y-8 animate-fade-up">
+        <!-- Badge premium -->
+        <div class="inline-flex items-center glass-subtle px-4 py-2 rounded-full">
+          <div class="w-2 h-2 bg-brand-coral-500 rounded-full mr-3 animate-pulse"></div>
+          <span class="text-sm font-medium text-white/80 tracking-wider">NUEVA COLECCIÓN 2025</span>
+        </div>
+        
+        <!-- Título principal -->
+        <div class="space-y-4">
+          <h1 class="text-5xl lg:text-7xl font-black leading-[0.9] tracking-tight">
+            <span class="text-white">Sofás que</span><br/>
+            <span class="text-gradient">Definen Espacios</span>
+          </h1>
+          
+          <p class="text-xl text-white/70 max-w-lg leading-relaxed">
+            Experimenta el lujo redefinido con nuestra colección exclusiva de 
+            sofás seccionales de diseño contemporáneo.
+          </p>
+        </div>
+        
+        <!-- Acciones hero -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+          <button class="btn-premium text-white px-8 py-4 rounded-xl font-semibold tracking-wide">
+            <span class="relative z-10 flex items-center gap-2">
+              Explorar Colección
+              <i class="fas fa-arrow-right text-sm"></i>
+            </span>
+          </button>
+          
+          <button class="btn-ghost text-white px-8 py-4 rounded-xl font-semibold tracking-wide">
+            Ver Showroom Virtual
+          </button>
+        </div>
+        
+        <!-- Stats elegantes -->
+        <div class="grid grid-cols-3 gap-8 pt-8 border-t border-white/10">
+          <div>
+            <div class="text-2xl font-bold text-gradient">100+</div>
+            <div class="text-sm text-white/60 tracking-wide">Diseños Exclusivos</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-gradient">8</div>
+            <div class="text-sm text-white/60 tracking-wide">Años Experiencia</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-gradient">Miles</div>
+            <div class="text-sm text-white/60 tracking-wide">Clientes Satisfechos</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Imagen hero minimalista -->
+      <div class="relative animate-fade-in">
+        <div class="relative">
+          <!-- Imagen principal con overlay -->
+          <div class="aspect-[4/5] rounded-3xl overflow-hidden glass-subtle relative">
+            
+            <!-- Imagen de fondo -->
+            <img 
+              src="/static/img/fabrica_1.jpeg" 
+              alt="Jerk Home Fábrica" 
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+
+            <!-- Capa oscura -->
+            <div class="absolute inset-0 bg-black/60"></div>
+
+            <!-- Contenido encima -->
+            <div class="relative z-10 w-full h-full flex items-center justify-center">
+              <div class="text-center space-y-4">
+                <div class="w-32 h-32 mx-auto bg-gradient-to-br from-brand-coral-500/20 to-brand-coral-600/20 rounded-2xl flex items-center justify-center">
+                  <i class="fas fa-home text-brand-coral-400 text-6xl"></i>
+                </div>
+                <div>
+                  <div class="text-lg font-semibold text-white">Seccional Premium</div>
+                  <div class="text-sm text-white/60">Diseño Contemporáneo</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+    <!-- Indicador de scroll -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div class="w-6 h-10 border border-white/30 rounded-full flex justify-center">
+        <div class="w-1 h-3 bg-brand-coral-500 rounded-full mt-2 animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Colección destacada -->
+<section class="py-32 relative">
+  <!-- Divisor sutil -->
+  <div class="section-divider mb-20"></div>
+  
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <!-- Header sección -->
+    <div class="text-center mb-20 animate-slide-up">
+      <div class="inline-flex items-center glass-subtle px-4 py-2 rounded-full mb-6">
+        <span class="text-sm font-medium text-white/80 tracking-wider">COLECCIÓN EXCLUSIVA</span>
+      </div>
+      
+      <h2 class="text-4xl lg:text-6xl font-black mb-6 tracking-tight">
+        <span class="text-white">Diseño</span> <span class="text-gradient">Excepcional</span>
+      </h2>
+      
+      <p class="text-xl text-white/70 max-w-3xl mx-auto">
+        Cada pieza representa la perfecta fusión entre artesanía tradicional 
+        y diseño contemporáneo, creada para durar generaciones.
+      </p>
+    </div>
+    
+    <!-- Grid de categorías premium -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      
+      <!-- Categoría Seccionales -->
+      <a href="/seccionales" class="product-card rounded-3xl overflow-hidden group cursor-pointer">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <div class="w-full h-full bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center">
+            <i class="fas fa-th-large text-brand-coral-400/60 group-hover:text-brand-coral-400 transition-colors duration-500 text-6xl"></i>
+          </div>
+          
+          <!-- Overlay premium -->
+          <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+            <div class="text-center text-white">
+              <i class="fas fa-arrow-right text-2xl mb-2"></i>
+              <div class="text-sm font-medium">Explorar</div>
+            </div>
+          </div>
+          
+          <!-- Badge -->
+          <div class="absolute top-4 left-4 glass-dark px-3 py-1 rounded-full">
+            <span class="text-xs font-medium text-brand-coral-400 tracking-wider">CATEGORÍA</span>
+          </div>
+        </div>
+        
+        <div class="p-8">
+          <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-gradient transition-colors">
+            Seccionales
+          </h3>
+          <p class="text-white/60 text-sm mb-6 leading-relaxed">
+            Sofás modulares diseñados para espacios amplios. Máxima comodidad 
+            y versatilidad en configuraciones personalizables.
+          </p>
+          
+          <div class="flex items-center justify-between">
+            <div class="text-white/70">
+              <div class="text-sm">Desde</div>
+              <div class="text-xl font-bold text-gradient">$149.990-</div>
+            </div>
+            <div class="flex items-center gap-2 text-brand-coral-400 font-medium">
+              <span class="text-sm">Ver Colección</span>
+              <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Categoría Sofás -->
+      <a href="/sofas" class="product-card rounded-3xl overflow-hidden group cursor-pointer">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <div class="w-full h-full bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center">
+            <i class="fas fa-couch text-brand-coral-400/60 group-hover:text-brand-coral-400 transition-colors duration-500 text-6xl"></i>
+          </div>
+          
+          <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+            <div class="text-center text-white">
+              <i class="fas fa-arrow-right text-2xl mb-2"></i>
+              <div class="text-sm font-medium">Explorar</div>
+            </div>
+          </div>
+          
+          <div class="absolute top-4 left-4 glass-dark px-3 py-1 rounded-full">
+            <span class="text-xs font-medium text-brand-coral-400 tracking-wider">CATEGORÍA</span>
+          </div>
+        </div>
+        
+        <div class="p-8">
+          <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-gradient transition-colors">
+            Sofás
+          </h3>
+          <p class="text-white/60 text-sm mb-6 leading-relaxed">
+            Sofás clásicos y contemporáneos que combinan elegancia y confort. 
+            Perfectos para salas de estar acogedoras.
+          </p>
+          
+          <div class="flex items-center justify-between">
+            <div class="text-white/70">
+              <div class="text-sm">Desde</div>
+              <div class="text-xl font-bold text-gradient">$129.990</div>
+            </div>
+            <div class="flex items-center gap-2 text-brand-coral-400 font-medium">
+              <span class="text-sm">Ver Colección</span>
+              <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Categoría Dormitorio -->
+      <a href="/camas" class="product-card rounded-3xl overflow-hidden group cursor-pointer">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <div class="w-full h-full bg-gradient-to-br from-dark-800 to-dark-900 flex items-center justify-center">
+            <i class="fas fa-bed text-brand-coral-400/60 group-hover:text-brand-coral-400 transition-colors duration-500 text-6xl"></i>
+          </div>
+          
+          <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+            <div class="text-center text-white">
+              <i class="fas fa-arrow-right text-2xl mb-2"></i>
+              <div class="text-sm font-medium">Explorar</div>
+            </div>
+          </div>
+          
+          <div class="absolute top-4 left-4 glass-dark px-3 py-1 rounded-full">
+            <span class="text-xs font-medium text-brand-coral-400 tracking-wider">CATEGORÍA</span>
+          </div>
+        </div>
+        
+        <div class="p-8">
+          <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-gradient transition-colors">
+            Dormitorio
+          </h3>
+          <p class="text-white/60 text-sm mb-6 leading-relaxed">
+            Camas y muebles de dormitorio que transforman tu descanso. 
+            Diseños que combinan funcionalidad y estilo sofisticado.
+          </p>
+          
+          <div class="flex items-center justify-between">
+            <div class="text-white/70">
+              <div class="text-sm">Desde</div>
+              <div class="text-xl font-bold text-gradient">$79.990</div>
+            </div>
+            <div class="flex items-center gap-2 text-brand-coral-400 font-medium">
+              <span class="text-sm">Ver Colección</span>
+              <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    
+    <!-- CTA sección -->
+    <div class="text-center">
+      <a href="/contacto" class="btn-ghost text-white px-12 py-4 rounded-xl font-semibold tracking-wide group inline-flex items-center gap-3">
+        Agenda una Consulta Gratuita
+        <i class="fas fa-calendar-alt group-hover:translate-x-1 transition-transform"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Experiencia premium -->
+<section class="py-32 bg-dark-900 relative">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <!-- Header -->
+    <div class="text-center mb-20 animate-slide-up">
+      <div class="inline-flex items-center glass-subtle px-4 py-2 rounded-full mb-6">
+        <span class="text-sm font-medium text-white/80 tracking-wider">EXPERIENCIA PREMIUM</span>
+      </div>
+      
+      <h2 class="text-4xl lg:text-6xl font-black mb-6 tracking-tight">
+        <span class="text-white">Más Que</span> <span class="text-gradient">Muebles</span>
+      </h2>
+    </div>
+    
+    <!-- Features premium -->
+    <div class="grid lg:grid-cols-3 gap-12">
+      
+      <!-- Feature 1 -->
+      <div class="text-center group">
+        <div class="w-20 h-20 mx-auto mb-8 glass-subtle rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <i class="fas fa-shield-alt text-brand-coral-400 text-3xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-4">Garantía de por Vida</h3>
+        <p class="text-white/60 leading-relaxed">
+          Cada pieza está respaldada por nuestra garantía extendida y servicio 
+          de mantenimiento premium sin costo adicional.
+        </p>
+      </div>
+      
+      <!-- Feature 2 -->
+      <div class="text-center group">
+        <div class="w-20 h-20 mx-auto mb-8 glass-subtle rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <i class="fas fa-palette text-brand-coral-400 text-3xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-4">Diseño Personalizado</h3>
+        <p class="text-white/60 leading-relaxed">
+          Trabajamos contigo para crear piezas únicas que reflejen tu estilo 
+          y se adapten perfectamente a tu espacio.
+        </p>
+      </div>
+      
+      <!-- Feature 3 -->
+      <div class="text-center group">
+        <div class="w-20 h-20 mx-auto mb-8 glass-subtle rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <i class="fas fa-shipping-fast text-brand-coral-400 text-3xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-4">Entrega Express</h3>
+        <p class="text-white/60 leading-relaxed">
+          Instalación profesional en 24-48 horas con nuestro equipo especializado 
+          en muebles de alta gama.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter premium -->
+<section class="py-32 relative">
+  <!-- Divisor -->
+  <div class="section-divider mb-20"></div>
+  
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <div class="glass-subtle rounded-3xl p-12">
+      
+      <div class="inline-flex items-center glass-dark px-4 py-2 rounded-full mb-8">
+        <span class="text-sm font-medium text-white/80 tracking-wider">ACCESO EXCLUSIVO</span>
+      </div>
+      
+      <h2 class="text-4xl lg:text-5xl font-black mb-6 tracking-tight">
+        <span class="text-white">Únete al</span> <span class="text-gradient">Club Premium</span>
+      </h2>
+      
+      <p class="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
+        Acceso anticipado a nuevas colecciones, descuentos exclusivos 
+        y invitaciones a eventos privados de diseño.
+      </p>
+      
+      <!-- Form elegante -->
+      <div class="max-w-md mx-auto">
+        <form class="flex gap-4" id="newsletterForm">
+          <input 
+            type="email" 
+            placeholder="tu@email.com" 
+            required
+            class="flex-1 bg-dark-900/50 border border-white/20 rounded-xl px-6 py-4 text-white placeholder-white/50 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+          />
+          <button type="submit" class="btn-premium px-8 py-4 rounded-xl font-semibold whitespace-nowrap">
+            <span class="relative z-10">Unirse</span>
+          </button>
+        </form>
+        
+        <p class="text-xs text-white/50 mt-4">
+          🔒 Tu privacidad es nuestra prioridad. Sin spam, solo contenido premium.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Funcionalidad específica para la página de inicio
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Newsletter form
+  const newsletterForm = document.getElementById('newsletterForm');
+  
+  newsletterForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = this.querySelector('input[type="email"]').value;
+    const button = this.querySelector('button[type="submit"]');
+    const originalContent = button.innerHTML;
+    
+    if (email) {
+      // Animación de envío
+      button.innerHTML = '<span class="relative z-10">Enviando...</span>';
+      button.disabled = true;
+      
+      setTimeout(() => {
+        button.innerHTML = '<span class="relative z-10">¡Bienvenido!</span>';
+        button.classList.remove('btn-premium');
+        button.classList.add('bg-green-500');
+        
+        setTimeout(() => {
+          button.innerHTML = originalContent;
+          button.disabled = false;
+          button.classList.remove('bg-green-500');
+          button.classList.add('btn-premium');
+          this.reset();
+        }, 2000);
+      }, 1000);
+    }
+  });
+  
+  // Smooth scroll para el indicador de scroll
+  document.querySelector('.animate-bounce').addEventListener('click', function() {
+    document.querySelector('section:nth-child(2)').scrollIntoView({ 
+      behavior: 'smooth' 
+    });
+  });
+  
+  // Interacciones de productos
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const productName = this.querySelector('h3').textContent;
+      console.log(`Producto seleccionado: ${productName}`);
+      // Aquí puedes redirigir a la página del producto
+    });
+  });
+  
+  // Botones CTA principales
+  document.querySelectorAll('.btn-premium, .btn-ghost').forEach(button => {
+    const text = button.textContent.trim();
+    
+    if (text.includes('Explorar Colección')) {
+      button.addEventListener('click', () => {
+        window.location.href = '/productos';
+      });
+    }
+    
+    if (text.includes('Showroom Virtual')) {
+      button.addEventListener('click', () => {
+        window.location.href = '/contacto';
+      });
+    }
+  });
+});
+</script>
+{% endblock %}

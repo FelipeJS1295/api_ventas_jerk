@@ -1,0 +1,191 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}Error en el Pago - Jerk Home{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-b from-[#1a0e0a] to-[#0d0603] text-white py-24 flex items-center">
+  <div class="max-w-2xl mx-auto px-6 text-center">
+    
+    <!-- Icono de error técnico -->
+    <div class="mb-8">
+      <div class="w-32 h-32 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fas fa-exclamation-triangle text-6xl text-orange-600"></i>
+      </div>
+      <div class="w-24 h-2 bg-orange-600 rounded-full mx-auto"></div>
+    </div>
+    
+    <!-- Mensaje principal -->
+    <div class="mb-12">
+      <h1 class="text-5xl font-bold text-white mb-4">Error Técnico</h1>
+      <p class="text-xl text-gray-300 mb-8">
+        Ocurrió un error técnico durante el procesamiento del pago. 
+        Nuestro equipo ha sido notificado y está trabajando para solucionarlo.
+      </p>
+      
+      <!-- Detalles del error -->
+      <div class="bg-dark-800/50 rounded-2xl p-8 mb-8 border border-orange-500/30">
+        <h3 class="text-2xl font-semibold text-white mb-6 flex items-center justify-center gap-3">
+          <i class="fas fa-bug text-orange-400"></i>
+          Información del Error
+        </h3>
+        
+        <div class="text-left space-y-4">
+          {% if numero_orden %}
+          <div class="flex justify-between items-center py-2 border-b border-gray-600">
+            <span class="text-gray-400">Número de Orden:</span>
+            <span class="font-mono text-orange-400 font-semibold">{{ numero_orden }}</span>
+          </div>
+          {% endif %}
+          
+          {% if token %}
+          <div class="flex justify-between items-center py-2 border-b border-gray-600">
+            <span class="text-gray-400">Token:</span>
+            <span class="font-mono text-orange-400 text-sm">{{ token[:20] }}...</span>
+          </div>
+          {% endif %}
+          
+          <div class="flex justify-between items-center py-2 border-b border-gray-600">
+            <span class="text-gray-400">Fecha y Hora:</span>
+            <span class="text-white">{{ now().strftime('%d/%m/%Y %H:%M:%S') }}</span>
+          </div>
+        </div>
+        
+        <!-- Mensaje de error técnico -->
+        {% if error_message %}
+        <div class="mt-6 p-4 bg-orange-900/30 border border-orange-500/50 rounded-lg">
+          <p class="text-orange-200 text-sm">
+            <i class="fas fa-info-circle mr-2"></i>
+            <strong>Detalles técnicos:</strong> {{ error_message }}
+          </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Qué está pasando -->
+    <div class="bg-blue-900/20 rounded-2xl p-6 mb-8 border border-blue-500/30">
+      <h3 class="text-lg font-semibold text-blue-300 mb-4">¿Qué está pasando?</h3>
+      <div class="text-sm text-blue-200 space-y-3">
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-server text-blue-400 mt-1"></i>
+          <span>Puede ser un problema temporal de conectividad</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-wrench text-blue-400 mt-1"></i>
+          <span>Estamos trabajando para resolver cualquier inconveniente</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-shield-alt text-blue-400 mt-1"></i>
+          <span>Tus datos están seguros y no se ha realizado ningún cargo</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Opciones de acción -->
+    <div class="space-y-6">
+      <div class="bg-green-900/20 rounded-2xl p-6 border border-green-500/30">
+        <h3 class="text-lg font-semibold text-green-300 mb-4">¿Qué puedes hacer?</h3>
+        <div class="grid md:grid-cols-2 gap-4 text-sm text-green-200">
+          <div class="flex items-start space-x-2">
+            <i class="fas fa-clock text-green-400 mt-1"></i>
+            <span>Esperar unos minutos e intentar nuevamente</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <i class="fas fa-university text-green-400 mt-1"></i>
+            <span>Usar transferencia bancaria como alternativa</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <i class="fas fa-phone text-green-400 mt-1"></i>
+            <span>Contactar a nuestro equipo de soporte</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <i class="fas fa-redo text-green-400 mt-1"></i>
+            <span>Reiniciar el proceso de compra</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botones de acción -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="reintentar()" class="bg-brand-coral-500 hover:bg-brand-coral-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center justify-center">
+          <i class="fas fa-redo mr-2"></i>
+          Intentar Nuevamente
+        </button>
+        <a href="/checkout" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center justify-center">
+          <i class="fas fa-shopping-cart mr-2"></i>
+          Volver al Checkout
+        </a>
+      </div>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="contactWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center">
+          <i class="fab fa-whatsapp mr-2"></i>
+          Soporte por WhatsApp
+        </button>
+        <a href="/contacto" class="bg-dark-700 hover:bg-dark-600 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center">
+          <i class="fas fa-headset mr-2"></i>
+          Contactar Soporte
+        </a>
+        <a href="/productos" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center">
+          <i class="fas fa-home mr-2"></i>
+          Volver al Catálogo
+        </a>
+      </div>
+    </div>
+    
+    <!-- Información de contacto urgente -->
+    <div class="mt-12 text-sm text-gray-400">
+      <p class="mb-2">Soporte técnico disponible:</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="flex items-center justify-center space-x-2">
+          <i class="fas fa-phone"></i>
+          <span>+56 9 3253 8029</span>
+        </div>
+        <div class="flex items-center justify-center space-x-2">
+          <i class="fas fa-envelope"></i>
+          <span>soporte@jerkhome.cl</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ID de seguimiento -->
+    <div class="mt-8 text-xs text-gray-500 border-t border-gray-700 pt-6">
+      <p>
+        <i class="fas fa-hashtag mr-1"></i>
+        ID de seguimiento: ERR-{{ now().strftime('%Y%m%d%H%M%S') }}-{{ numero_orden or 'SIN_ORDEN' }}
+      </p>
+      <p class="mt-2">
+        Comparte este ID con nuestro equipo de soporte para una atención más rápida.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+function reintentar() {
+  // Esperar 2 segundos antes de reintentar para dar tiempo al sistema
+  setTimeout(() => {
+    window.location.href = '/checkout';
+  }, 2000);
+  
+  // Mostrar mensaje de espera
+  const button = event.target;
+  button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Reintentando...';
+  button.disabled = true;
+}
+
+function contactWhatsApp() {
+  const orderNumber = '{{ numero_orden or "ERROR" }}';
+  const errorId = `ERR-{{ now().strftime('%Y%m%d%H%M%S') }}-${orderNumber}`;
+  const message = encodeURIComponent(`Hola, tuve un error técnico al procesar mi pago. ID de seguimiento: ${errorId}. ¿Pueden ayudarme?`);
+  window.open(`https://wa.me/56932538029?text=${message}`, '_blank');
+}
+
+// Auto-reload después de 5 minutos por si el problema se resuelve
+setTimeout(() => {
+  if (confirm('¿Quieres intentar recargar la página? El problema podría estar resuelto.')) {
+    window.location.reload();
+  }
+}, 300000); // 5 minutos
+</script>
+{% endblock %}

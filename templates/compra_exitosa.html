@@ -1,0 +1,141 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}Compra Exitosa - Jerk Home{% endblock %}
+
+{% block description %}Tu compra ha sido procesada exitosamente. Gracias por confiar en Jerk Home.{% endblock %}
+
+{% block content %}
+<!-- Página de Éxito -->
+<section class="min-h-screen bg-gray-50 py-24 flex items-center">
+  <div class="max-w-2xl mx-auto px-6 text-center">
+    
+    <!-- Icono de éxito -->
+    <div class="mb-8">
+      <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fas fa-check text-4xl text-green-600"></i>
+      </div>
+      <div class="w-16 h-1 bg-green-600 rounded-full mx-auto"></div>
+    </div>
+    
+    <!-- Mensaje principal -->
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">¡Compra Exitosa!</h1>
+      <p class="text-xl text-gray-600 mb-6">
+        Tu pedido ha sido procesado correctamente y recibirás un email con los detalles.
+      </p>
+      
+      <!-- Número de orden -->
+      <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+        <div class="flex items-center justify-center space-x-3">
+          <i class="fas fa-receipt text-blue-600"></i>
+          <span class="text-gray-600">Número de Orden:</span>
+          <span id="order-number" class="font-mono text-lg font-semibold text-blue-600"></span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Información importante -->
+    <div class="bg-blue-50 rounded-lg p-6 mb-8">
+      <h3 class="text-lg font-semibold text-blue-900 mb-4">Información Importante</h3>
+      <div class="grid md:grid-cols-2 gap-4 text-sm text-blue-800">
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-truck text-blue-600"></i>
+          <span>Entrega en 3 días hábiles</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-phone text-blue-600"></i>
+          <span>Te contactaremos para coordinar</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-envelope text-blue-600"></i>
+          <span>Recibirás confirmación por email</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-tools text-blue-600"></i>
+          <span>Instalación incluida</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Método de pago seleccionado -->
+    <div id="payment-info" class="bg-yellow-50 rounded-lg p-6 mb-8 hidden">
+      <h3 class="text-lg font-semibold text-yellow-900 mb-3">Instrucciones de Pago</h3>
+      <div class="text-sm text-yellow-800">
+        <p class="mb-3">Has seleccionado <strong>Transferencia Bancaria</strong>. Por favor realiza la transferencia a:</p>
+        <div class="bg-white rounded border p-4 text-left">
+          <div class="space-y-2">
+            <div><strong>Banco:</strong> Banco Santander</div>
+            <div><strong>Cuenta Corriente:</strong> 123456789</div>
+            <div><strong>RUT:</strong> 76.990.942-7</div>
+            <div><strong>Titular:</strong> Jerk Home SpA</div>
+            <div><strong>Email:</strong> pagos@jerkhome.cl</div>
+          </div>
+        </div>
+        <p class="mt-3 text-xs">Envía el comprobante a <strong>pagos@jerkhome.cl</strong> indicando tu número de orden.</p>
+      </div>
+    </div>
+    
+    <!-- Acciones -->
+    <div class="space-y-4">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/productos" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center">
+          <i class="fas fa-shopping-bag mr-2"></i>
+          Seguir Comprando
+        </a>
+        <a href="/contacto" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center">
+          <i class="fas fa-headset mr-2"></i>
+          Contacto
+        </a>
+      </div>
+      
+      <!-- Botón WhatsApp -->
+      <button onclick="contactWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center">
+        <i class="fab fa-whatsapp mr-2"></i>
+        Consultas por WhatsApp
+      </button>
+    </div>
+    
+    <!-- Información adicional -->
+    <div class="mt-12 text-sm text-gray-500">
+      <p class="mb-2">¿Necesitas ayuda? Contáctanos:</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="flex items-center justify-center space-x-2">
+          <i class="fas fa-phone"></i>
+          <span>+56 9 3253 8029</span>
+        </div>
+        <div class="flex items-center justify-center space-x-2">
+          <i class="fas fa-envelope"></i>
+          <span>contacto@jerkhome.cl</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Obtener número de orden de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const orderNumber = urlParams.get('orden');
+  
+  if (orderNumber) {
+    document.getElementById('order-number').textContent = orderNumber;
+    
+    // Mostrar información de pago si es transferencia
+    // (esto se podría mejorar pasando el método de pago por URL)
+    document.getElementById('payment-info').classList.remove('hidden');
+  } else {
+    // Si no hay número de orden, redirigir a productos
+    window.location.href = '/productos';
+  }
+});
+
+function contactWhatsApp() {
+  const orderNumber = document.getElementById('order-number').textContent;
+  const message = encodeURIComponent(`Hola, tengo consultas sobre mi pedido #${orderNumber}`);
+  window.open(`https://wa.me/56932538029?text=${message}`, '_blank');
+}
+</script>
+{% endblock %}

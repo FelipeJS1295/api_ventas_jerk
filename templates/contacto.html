@@ -1,0 +1,473 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}Contacto - Jerk Home{% endblock %}
+
+{% block description %}Contáctanos para una consulta gratuita. Showroom en Los Paltos 2769, La Pintana. Expertos en sofás seccionales y muebles premium.{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section Contacto -->
+<section class="min-h-screen flex items-center hero-pattern relative pt-20">
+  <div class="max-w-7xl mx-auto px-6 w-full">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      
+      <!-- Contenido -->
+      <div class="space-y-8 animate-fade-up">
+        <div class="inline-flex items-center glass-subtle px-4 py-2 rounded-full">
+          <div class="w-2 h-2 bg-brand-coral-500 rounded-full mr-3 animate-pulse"></div>
+          <span class="text-sm font-medium text-white/80 tracking-wider">ESTAMOS AQUÍ PARA TI</span>
+        </div>
+        
+        <h1 class="text-5xl lg:text-7xl font-black leading-[0.9] tracking-tight">
+          <span class="text-white">Hagamos</span><br/>
+          <span class="text-gradient">Realidad</span><br/>
+          <span class="text-white">Tu Proyecto</span>
+        </h1>
+        
+        <p class="text-xl text-white/70 leading-relaxed max-w-lg">
+          Nuestro equipo de expertos está listo para ayudarte a crear 
+          el espacio perfecto. Agenda tu consulta gratuita hoy mismo.
+        </p>
+        
+        <!-- Información rápida -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 glass-subtle rounded-xl flex items-center justify-center">
+              <i class="fas fa-map-marker-alt text-brand-coral-400"></i>
+            </div>
+            <div>
+              <div class="text-white font-medium">Los Paltos 2769, La Pintana</div>
+              <div class="text-white/60 text-sm">Showroom Principal</div>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 glass-subtle rounded-xl flex items-center justify-center">
+              <i class="fas fa-phone text-brand-coral-400"></i>
+            </div>
+            <div>
+              <div class="text-white font-medium">+56 9 3253 8029</div>
+              <div class="text-white/60 text-sm">Atención Personalizada</div>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 glass-subtle rounded-xl flex items-center justify-center">
+              <i class="fas fa-envelope text-brand-coral-400"></i>
+            </div>
+            <div>
+              <div class="text-white font-medium">contacto@jerkhome.cl</div>
+              <div class="text-white/60 text-sm">Respuesta en 24hrs</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button class="btn-premium text-white px-8 py-4 rounded-xl font-semibold tracking-wide">
+            <span class="relative z-10 flex items-center gap-2">
+              <i class="fab fa-whatsapp"></i>
+              WhatsApp Directo
+            </span>
+          </button>
+          <button class="btn-ghost text-white px-8 py-4 rounded-xl font-semibold tracking-wide">
+            Llamar Ahora
+          </button>
+        </div>
+      </div>
+      
+      <!-- Horarios -->
+      <div class="space-y-6 animate-fade-in">
+        <div class="glass-subtle rounded-3xl p-8">
+          <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <i class="fas fa-clock text-brand-coral-400"></i>
+            Horarios de Atención
+          </h3>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center py-3 border-b border-white/10">
+              <span class="text-white/80">Lunes - Viernes</span>
+              <span class="text-white font-medium">9:00 - 19:00</span>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b border-white/10">
+              <span class="text-white/80">Sábados</span>
+              <span class="text-white font-medium">9:00 - 13:00</span>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b border-white/10">
+              <span class="text-white/80">Domingos</span>
+              <span class="text-white font-medium">Cerrado</span>
+            </div>
+            <div class="flex justify-between items-center py-3">
+              <span class="text-white/80">Consultas Virtuales</span>
+              <span class="text-brand-coral-400 font-medium">24/7</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Servicios destacados -->
+        <div class="glass-subtle rounded-3xl p-8">
+          <h4 class="text-xl font-bold text-white mb-4">Servicios Disponibles</h4>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-check-circle text-brand-coral-400 text-sm"></i>
+              <span class="text-white/70 text-sm">Consulta y medición gratuita</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-check-circle text-brand-coral-400 text-sm"></i>
+              <span class="text-white/70 text-sm">Diseño 3D personalizado</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-check-circle text-brand-coral-400 text-sm"></i>
+              <span class="text-white/70 text-sm">Financiamiento hasta 24 meses</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-check-circle text-brand-coral-400 text-sm"></i>
+              <span class="text-white/70 text-sm">Entrega e instalación incluida</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Formulario de Contacto -->
+<section class="py-32 relative">
+  <div class="section-divider mb-20"></div>
+  
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16">
+      
+      <!-- Formulario -->
+      <div class="space-y-8">
+        <div>
+          <div class="inline-flex items-center glass-subtle px-4 py-2 rounded-full mb-6">
+            <span class="text-sm font-medium text-white/80 tracking-wider">CONTÁCTANOS</span>
+          </div>
+          
+          <h2 class="text-4xl lg:text-5xl font-black tracking-tight mb-6">
+            <span class="text-white">Comienza tu</span> <span class="text-gradient">Proyecto</span>
+          </h2>
+          
+          <p class="text-white/70 text-lg leading-relaxed">
+            Completa el formulario y uno de nuestros especialistas se pondrá 
+            en contacto contigo en menos de 24 horas.
+          </p>
+        </div>
+        
+        <!-- Form -->
+        <form class="space-y-6" id="contactForm">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-white/80 text-sm font-medium mb-2">Nombre Completo *</label>
+              <input 
+                type="text" 
+                required
+                class="w-full bg-dark-900/50 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+                placeholder="Tu nombre completo"
+              />
+            </div>
+            <div>
+              <label class="block text-white/80 text-sm font-medium mb-2">Teléfono *</label>
+              <input 
+                type="tel" 
+                required
+                class="w-full bg-dark-900/50 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+                placeholder="+56 9 0000 0000"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-white/80 text-sm font-medium mb-2">Email *</label>
+            <input 
+              type="email" 
+              required
+              class="w-full bg-dark-900/50 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+              placeholder="tu@email.com"
+            />
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-white/80 text-sm font-medium mb-2">Tipo de Proyecto</label>
+              <select class="w-full bg-dark-900/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all">
+                <option value="">Selecciona una opción</option>
+                <option value="seccional">Sofá Seccional</option>
+                <option value="sofa">Sofá Tradicional</option>
+                <option value="poltrona">Poltronas</option>
+                <option value="cama">Camas</option>
+                <option value="completo">Mobiliario Completo</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-white/80 text-sm font-medium mb-2">Presupuesto Estimado</label>
+              <select class="w-full bg-dark-900/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all">
+                <option value="">Rango de inversión</option>
+                <option value="500-1000">$500.000 - $1.000.000</option>
+                <option value="1000-2000">$1.000.000 - $2.000.000</option>
+                <option value="2000-5000">$2.000.000 - $5.000.000</option>
+                <option value="5000+">Más de $5.000.000</option>
+              </select>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-white/80 text-sm font-medium mb-2">Cuéntanos sobre tu proyecto</label>
+            <textarea 
+              rows="4"
+              class="w-full bg-dark-900/50 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all resize-none"
+              placeholder="Describe tu espacio, estilo preferido, dimensiones aproximadas y cualquier otro detalle relevante..."
+            ></textarea>
+          </div>
+          
+          <div class="flex items-start gap-3">
+            <input 
+              type="checkbox" 
+              id="privacy" 
+              required
+              class="mt-1 w-4 h-4 text-brand-coral-500 bg-dark-900 border-white/20 rounded focus:ring-brand-coral-500"
+            />
+            <label for="privacy" class="text-white/70 text-sm leading-relaxed">
+              Acepto los <a href="/terminos" class="text-brand-coral-400 hover:underline">términos y condiciones</a> 
+              y autorizo el tratamiento de mis datos personales según la 
+              <a href="/privacidad" class="text-brand-coral-400 hover:underline">política de privacidad</a>.
+            </label>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="w-full btn-premium text-white py-4 rounded-xl font-semibold text-lg tracking-wide"
+          >
+            <span class="relative z-10 flex items-center justify-center gap-2">
+              <i class="fas fa-paper-plane"></i>
+              Enviar Consulta
+            </span>
+          </button>
+        </form>
+      </div>
+      
+      <!-- Mapa y ubicación -->
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-3xl font-bold text-white mb-6">Visita Nuestro Showroom</h3>
+          <p class="text-white/70 leading-relaxed mb-8">
+            Te invitamos a conocer nuestra amplia exhibición de muebles premium. 
+            Experimenta la calidad y comodidad de primera mano en nuestro showroom 
+            de más de 500m² en La Pintana.
+          </p>
+        </div>
+        
+        <!-- Mapa de Google -->
+        <div class="rounded-3xl overflow-hidden glass-subtle border border-white/10">
+          <div class="aspect-[4/3] relative">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3325.3876289446627!2d-70.63427!3d-33.5859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d168a8394217%3A0xc6b341e1a3d0e5a7!2sLos%20Paltos%202769%2C%20La%20Pintana%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses!2scl!4v1700000000000!5m2!1ses!2scl"
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              class="w-full h-full"
+            ></iframe>
+          </div>
+          
+          <!-- Información de ubicación superpuesta -->
+          <div class="absolute bottom-4 left-4 right-4 glass-dark rounded-2xl p-4">
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fas fa-map-marker-alt text-brand-coral-400"></i>
+              <span class="text-white font-semibold">Jerk Home Showroom</span>
+            </div>
+            <p class="text-white/70 text-sm">Los Paltos 2769, La Pintana</p>
+            <p class="text-white/60 text-xs mt-1">Estacionamiento gratuito disponible</p>
+          </div>
+        </div>
+        
+        <!-- Información adicional -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="glass-subtle rounded-2xl p-6 text-center">
+            <i class="fas fa-car text-brand-coral-400 text-2xl mb-3"></i>
+            <h4 class="text-white font-semibold mb-1">Estacionamiento</h4>
+            <p class="text-white/60 text-sm">Gratuito para clientes</p>
+          </div>
+          <div class="glass-subtle rounded-2xl p-6 text-center">
+            <i class="fas fa-wheelchair text-brand-coral-400 text-2xl mb-3"></i>
+            <h4 class="text-white font-semibold mb-1">Accesibilidad</h4>
+            <p class="text-white/60 text-sm">Instalaciones adaptadas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Métodos de Contacto Alternativos -->
+<section class="py-32 bg-dark-900 relative">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <!-- Header -->
+    <div class="text-center mb-20">
+      <div class="inline-flex items-center glass-subtle px-4 py-2 rounded-full mb-6">
+        <span class="text-sm font-medium text-white/80 tracking-wider">OTRAS FORMAS DE CONTACTO</span>
+      </div>
+      
+      <h2 class="text-4xl lg:text-6xl font-black mb-6 tracking-tight">
+        <span class="text-white">Estamos</span> <span class="text-gradient">Conectados</span>
+      </h2>
+    </div>
+    
+    <!-- Grid de contactos -->
+    <div class="grid md:grid-cols-3 gap-8">
+      
+      <!-- WhatsApp -->
+      <div class="glass-subtle rounded-3xl p-8 text-center hover:bg-white/10 transition-all duration-500 group">
+        <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-500/20 to-green-600/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i class="fab fa-whatsapp text-green-400 text-3xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-4">WhatsApp</h3>
+        <p class="text-white/60 mb-6 leading-relaxed">
+          Respuesta inmediata para consultas rápidas y coordinación de visitas.
+        </p>
+        <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors">
+          <i class="fab fa-whatsapp mr-2"></i>
+          +56 9 3253 8029
+        </button>
+      </div>
+      
+      <!-- Email -->
+      <div class="glass-subtle rounded-3xl p-8 text-center hover:bg-white/10 transition-all duration-500 group">
+        <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i class="fas fa-envelope text-blue-400 text-3xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-4">Email</h3>
+        <p class="text-white/60 mb-6 leading-relaxed">
+          Para consultas detalladas y envío de planos o referencias visuales.
+        </p>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors">
+          <i class="fas fa-envelope mr-2"></i>
+          Escribir Email
+        </button>
+      </div>
+      
+      <!-- Llamada -->
+      <div class="glass-subtle rounded-3xl p-8 text-center hover:bg-white/10 transition-all duration-500 group">
+        <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-brand-coral-500/20 to-brand-coral-600/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+          <i class="fas fa-phone text-brand-coral-400 text-3xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-4">Llamada Directa</h3>
+        <p class="text-white/60 mb-6 leading-relaxed">
+          Atención personalizada con nuestros especialistas en diseño.
+        </p>
+        <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold">
+          <span class="relative z-10 flex items-center gap-2">
+            <i class="fas fa-phone"></i>
+            Llamar Ahora
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Funcionalidad específica para la página de contacto
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Manejo del formulario de contacto
+  const contactForm = document.getElementById('contactForm');
+  
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitButton = this.querySelector('button[type="submit"]');
+    const originalContent = submitButton.innerHTML;
+    
+    // Animación de envío
+    submitButton.innerHTML = '<span class="relative z-10 flex items-center justify-center gap-2"><i class="fas fa-spinner fa-spin"></i>Enviando...</span>';
+    submitButton.disabled = true;
+    
+    // Simular envío (aquí integrarías con tu backend)
+    setTimeout(() => {
+      submitButton.innerHTML = '<span class="relative z-10 flex items-center justify-center gap-2"><i class="fas fa-check"></i>¡Mensaje Enviado!</span>';
+      submitButton.classList.remove('btn-premium');
+      submitButton.classList.add('bg-green-500');
+      
+      // Mostrar mensaje de éxito
+      const successMessage = document.createElement('div');
+      successMessage.className = 'glass-subtle rounded-xl p-4 mt-4 border border-green-500/30';
+      successMessage.innerHTML = `
+        <div class="flex items-center gap-3">
+          <i class="fas fa-check-circle text-green-400"></i>
+          <div>
+            <div class="text-white font-medium">¡Gracias por tu consulta!</div>
+            <div class="text-white/70 text-sm">Nos pondremos en contacto contigo en menos de 24 horas.</div>
+          </div>
+        </div>
+      `;
+      contactForm.appendChild(successMessage);
+      
+      // Resetear formulario después de 3 segundos
+      setTimeout(() => {
+        contactForm.reset();
+        submitButton.innerHTML = originalContent;
+        submitButton.disabled = false;
+        submitButton.classList.add('btn-premium');
+        submitButton.classList.remove('bg-green-500');
+        successMessage.remove();
+      }, 3000);
+      
+    }, 2000);
+  });
+  
+  // Funcionalidad de botones de contacto
+  document.querySelectorAll('button').forEach(button => {
+    const text = button.textContent.trim();
+    
+    if (text.includes('WhatsApp') || text.includes('+56 9 3253 8029')) {
+      button.addEventListener('click', () => {
+        window.open('https://wa.me/56932538029?text=Hola, me interesa conocer más sobre sus muebles premium.', '_blank');
+      });
+    }
+    
+    if (text.includes('Llamar') || text.includes('Llamada')) {
+      button.addEventListener('click', () => {
+        window.location.href = 'tel:+56932538029';
+      });
+    }
+    
+    if (text.includes('Email') || text.includes('Escribir')) {
+      button.addEventListener('click', () => {
+        window.location.href = 'mailto:contacto@jerkhome.cl?subject=Consulta sobre muebles premium&body=Hola, me interesa conocer más sobre sus productos.';
+      });
+    }
+  });
+  
+  // Animación de entrada para elementos
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  // Aplicar animaciones a elementos del formulario
+  document.querySelectorAll('.space-y-6 > div, .grid > div').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'all 0.6s ease-out';
+    observer.observe(el);
+  });
+});
+</script>
+{% endblock %}

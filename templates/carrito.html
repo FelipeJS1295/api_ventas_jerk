@@ -1,0 +1,631 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}Carrito de Compras - Jerk Home{% endblock %}
+
+{% block description %}Revisa los productos que has agregado al carrito y finaliza tu pedido fácilmente.{% endblock %}
+
+{% block breadcrumb %}
+<section class="bg-dark-800 py-6 mt-20">
+  <div class="container mx-auto px-6">
+    <nav class="flex" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+          <a href="/inicio" class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-home w-4 h-4 mr-2"></i>
+            Inicio
+          </a>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <i class="fas fa-chevron-right w-4 h-4 text-gray-600 mx-2"></i>
+            <span class="text-sm font-medium text-white">Carrito</span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="py-24 bg-gradient-to-b from-[#1a0e0a] to-[#0d0603] text-white min-h-screen">
+  <div class="max-w-6xl mx-auto px-6">
+    
+    <!-- Header -->
+    <div class="mb-12">
+      <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4">Carrito de Compras</h1>
+      <div class="flex items-center gap-3 text-gray-400">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="items-counter" class="text-sm">0 productos en tu carrito</span>
+      </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="grid lg:grid-cols-3 gap-12">
+      
+      <!-- Lista de Productos -->
+      <div class="lg:col-span-2">
+        
+        <!-- Carrito Vacío -->
+        <div id="carrito-vacio" class="bg-dark-800/50 rounded-2xl p-12 text-center border border-gray-700">
+          <div class="max-w-md mx-auto">
+            <div class="w-24 h-24 bg-dark-700 rounded-full flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-shopping-cart text-gray-500 text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white mb-4">Tu carrito está vacío</h3>
+            <p class="text-gray-400 mb-8">Explora nuestros productos y encuentra el mueble perfecto para tu hogar.</p>
+            <a href="/productos" class="inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg transition-all">
+              <i class="fas fa-th"></i>
+              <span>Explorar Productos</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Lista de Productos del Carrito -->
+        <div id="carrito-lista" class="space-y-4 hidden">
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-700">
+            <h3 class="text-xl font-semibold text-white">Productos Seleccionados</h3>
+            <button onclick="vaciarCarrito()" class="text-gray-400 hover:text-red-400 transition-colors text-sm">
+              <i class="fas fa-trash mr-2"></i>Vaciar Carrito
+            </button>
+          </div>
+          
+          <div id="productos-container" class="space-y-4">
+            <!-- Los productos se cargan dinámicamente aquí -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen del Pedido -->
+      <div class="lg:col-span-1">
+        <div id="carrito-resumen" class="bg-dark-800/50 rounded-2xl p-8 border border-gray-700 sticky top-8 hidden">
+          
+          <h3 class="text-xl font-semibold text-white mb-6 flex items-center gap-3">
+            <i class="fas fa-receipt text-gray-400"></i>
+            Resumen del Pedido
+          </h3>
+          
+          <!-- Desglose de Costos -->
+          <div class="space-y-4 mb-6">
+            <div class="flex justify-between items-center text-gray-300">
+              <span>Subtotal:</span>
+              <span id="subtotal">$0</span>
+            </div>
+            <div class="flex justify-between items-center text-gray-300">
+              <span>Descuentos:</span>
+              <span id="descuentos" class="text-green-400">-$0</span>
+            </div>
+            <div class="flex justify-between items-center text-gray-300">
+              <span>Envío:</span>
+              <span id="envio" class="text-green-400">Gratis</span>
+            </div>
+            <div class="border-t border-gray-600 pt-4">
+              <div class="flex justify-between items-center">
+                <span class="text-lg font-semibold text-white">Total:</span>
+                <span class="text-2xl font-bold text-white" id="carrito-total">$0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Código de Descuento -->
+          <div class="mb-6">
+            <div class="flex gap-2">
+              <input 
+                type="text" 
+                id="codigo-descuento" 
+                placeholder="Código de descuento"
+                class="flex-1 bg-dark-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 text-sm focus:border-white/30 focus:outline-none"
+              />
+              <button 
+                onclick="aplicarDescuento()" 
+                class="bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-lg transition-all"
+                title="Aplicar código"
+              >
+                <i class="fas fa-check"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="space-y-3">
+            <button 
+              onclick="procederPago()" 
+              class="w-full bg-white text-black hover:bg-gray-100 px-6 py-4 rounded-lg font-semibold transition-all flex items-center justify-center gap-3"
+            >
+              <i class="fas fa-credit-card"></i>
+              <span>Proceder al Pago</span>
+            </button>
+            
+            <button 
+              onclick="contactarWhatsApp()" 
+              class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-3"
+            >
+              <i class="fab fa-whatsapp"></i>
+              <span>Consultar por WhatsApp</span>
+            </button>
+            
+            <a 
+              href="/productos" 
+              class="w-full bg-dark-700 hover:bg-dark-600 text-gray-300 px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-3"
+            >
+              <i class="fas fa-arrow-left"></i>
+              <span>Seguir Comprando</span>
+            </a>
+          </div>
+
+          <!-- Información Adicional -->
+          <div class="mt-8 pt-6 border-t border-gray-700">
+            <div class="space-y-3 text-sm text-gray-400">
+              <div class="flex items-center gap-3">
+                <i class="fas fa-shipping-fast text-green-400"></i>
+                <span>Envío gratis en Santiago</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i class="fas fa-shield-alt text-blue-400"></i>
+                <span>Compra 100% segura</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i class="fas fa-undo text-yellow-400"></i>
+                <span>Devoluciones fáciles</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Confirmación Vaciar Carrito -->
+<div id="modal-vaciar" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-dark-800 rounded-2xl shadow-xl max-w-md w-full border border-gray-700">
+      <div class="p-8">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-exclamation-triangle text-red-400 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-4">¿Vaciar carrito?</h3>
+          <p class="text-gray-400 mb-8">Esta acción eliminará todos los productos de tu carrito y no se puede deshacer.</p>
+          
+          <div class="flex gap-4">
+            <button 
+              onclick="cerrarModal('modal-vaciar')" 
+              class="flex-1 bg-dark-700 hover:bg-dark-600 text-gray-300 px-4 py-3 rounded-lg transition-all"
+            >
+              Cancelar
+            </button>
+            <button 
+              onclick="confirmarVaciarCarrito()" 
+              class="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg transition-all"
+            >
+              Vaciar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Variables globales
+let carrito = [];
+let descuentoAplicado = 0;
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+  cargarCarrito();
+  actualizarCarrito();
+});
+
+// Cargar carrito desde localStorage
+function cargarCarrito() {
+  const carritoGuardado = localStorage.getItem('carrito');
+  if (carritoGuardado) {
+    try {
+      carrito = JSON.parse(carritoGuardado);
+    } catch (error) {
+      console.error('Error cargando carrito:', error);
+      carrito = [];
+    }
+  }
+}
+
+// Guardar carrito en localStorage
+function guardarCarrito() {
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+}
+
+// Actualizar vista del carrito
+function actualizarCarrito() {
+  const lista = document.getElementById("carrito-lista");
+  const vacio = document.getElementById("carrito-vacio");
+  const resumen = document.getElementById("carrito-resumen");
+  const container = document.getElementById("productos-container");
+  const counter = document.getElementById("items-counter");
+
+  if (carrito.length === 0) {
+    vacio.classList.remove("hidden");
+    lista.classList.add("hidden");
+    resumen.classList.add("hidden");
+    counter.textContent = "0 productos en tu carrito";
+    return;
+  }
+
+  vacio.classList.add("hidden");
+  lista.classList.remove("hidden");
+  resumen.classList.remove("hidden");
+
+  // Actualizar contador
+  const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+  counter.textContent = `${totalItems} producto${totalItems !== 1 ? 's' : ''} en tu carrito`;
+
+  // Limpiar container
+  container.innerHTML = "";
+
+// Renderizar productos
+  carrito.forEach((producto, index) => {
+    const item = document.createElement("div");
+    item.className = "bg-dark-800/50 rounded-xl p-6 border border-gray-700 hover:border-gray-600 transition-all";
+
+    // Manejar imagen con fallback
+    const imagenSrc = producto.imagen || producto.img_1 || '/static/images/no-image.jpg';
+    
+    // Obtener precios correctos
+    const precioVenta = parseFloat(producto.precio_venta || producto.precio || 0);
+    const precioDescuento = parseFloat(producto.precio_descuento || 0);
+    const precioFinal = calcularPrecioProducto(producto);
+
+    // Debug para verificar los precios
+    console.log('Producto:', producto.nombre, 'Precio venta:', precioVenta, 'Precio descuento:', precioDescuento, 'Precio final:', precioFinal);
+
+    item.innerHTML = `
+      <div class="flex items-center gap-6">
+        
+        <!-- Imagen del Producto -->
+        <div class="flex-shrink-0">
+          <div class="w-24 h-24 bg-dark-700 rounded-lg overflow-hidden">
+            <img 
+              src="${imagenSrc}" 
+              alt="${producto.nombre}"
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="w-full h-full bg-gradient-to-br from-dark-700 to-dark-600 flex items-center justify-center" style="display:none;">
+              <i class="fas fa-image text-gray-500 text-xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Información del Producto -->
+        <div class="flex-1">
+          <h3 class="text-lg font-semibold text-white mb-2">${producto.nombre}</h3>
+          
+          <!-- Precio -->
+          <div class="flex items-center gap-3 mb-4">
+            ${precioDescuento && precioDescuento < precioVenta && precioDescuento > 0 ? `
+              <span class="text-gray-500 line-through text-sm">${formatearPrecio(precioVenta)}</span>
+              <span class="text-white font-semibold">${formatearPrecio(precioDescuento)}</span>
+              <span class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">
+                -${Math.round(((precioVenta - precioDescuento) / precioVenta) * 100)}%
+              </span>
+            ` : `
+              <span class="text-white font-semibold">${formatearPrecio(precioVenta)}</span>
+            `}
+          </div>
+
+          <!-- Controles de Cantidad -->
+          <div class="flex items-center gap-4">
+            <div class="flex items-center bg-dark-700 rounded-lg border border-gray-600">
+              <button 
+                onclick="cambiarCantidad(${producto.id}, -1)" 
+                class="p-2 text-gray-400 hover:text-white transition-colors"
+                ${producto.cantidad <= 1 ? 'disabled' : ''}
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              
+              <span class="px-4 py-2 text-white font-medium min-w-[50px] text-center">${producto.cantidad}</span>
+              
+              <button 
+                onclick="cambiarCantidad(${producto.id}, 1)" 
+                class="p-2 text-gray-400 hover:text-white transition-colors"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+            <button 
+              onclick="eliminarProducto(${producto.id})" 
+              class="text-gray-400 hover:text-red-400 transition-colors p-2"
+              title="Eliminar producto"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Subtotal del Producto -->
+        <div class="text-right">
+          <div class="text-2xl font-bold text-white">
+            ${formatearPrecio(precioFinal * producto.cantidad)}
+          </div>
+          <div class="text-sm text-gray-400">
+            ${formatearPrecio(precioFinal)} c/u
+          </div>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(item);
+  });
+
+  // Actualizar resumen
+  actualizarResumen();
+}
+
+// Calcular precio del producto (simplificado para manejo uniforme)
+function calcularPrecioProducto(producto) {
+  // Prioridad: precio_descuento (si existe y es menor) > precio_venta > precio (fallback)
+  const precioVenta = parseFloat(producto.precio_venta || producto.precio || 0);
+  const precioDescuento = parseFloat(producto.precio_descuento || 0);
+  
+  // Si hay descuento válido, usarlo
+  if (precioDescuento && precioDescuento > 0 && precioDescuento < precioVenta) {
+    return precioDescuento;
+  }
+  
+  // Sino, usar precio_venta
+  return precioVenta;
+}
+
+// Actualizar resumen de costos
+function actualizarResumen() {
+  let subtotalOriginal = 0;
+  let subtotalConDescuento = 0;
+  
+  carrito.forEach(producto => {
+    const precioVenta = parseFloat(producto.precio_venta || producto.precio || 0);
+    const precioFinal = calcularPrecioProducto(producto);
+    const cantidad = parseInt(producto.cantidad) || 1;
+    
+    subtotalOriginal += (precioVenta * cantidad);
+    subtotalConDescuento += (precioFinal * cantidad);
+  });
+
+  const descuentos = subtotalOriginal - subtotalConDescuento + descuentoAplicado;
+  const total = subtotalConDescuento - descuentoAplicado;
+
+  document.getElementById("subtotal").textContent = `${formatearPrecio(subtotalOriginal)}`;
+  document.getElementById("descuentos").textContent = descuentos > 0 ? `-${formatearPrecio(descuentos)}` : '$0';
+  document.getElementById("carrito-total").textContent = `${formatearPrecio(Math.max(0, total))}`;
+  
+  // Debug para verificar cálculos
+  console.log('Subtotal original:', subtotalOriginal, 'Subtotal con descuento:', subtotalConDescuento, 'Total final:', total);
+}
+
+// Cambiar cantidad de un producto
+function cambiarCantidad(id, cambio) {
+  const index = carrito.findIndex(p => p.id === id);
+  if (index !== -1) {
+    carrito[index].cantidad += cambio;
+    if (carrito[index].cantidad <= 0) {
+      carrito.splice(index, 1);
+    }
+    guardarCarrito();
+    actualizarCarrito();
+    mostrarNotificacion('Cantidad actualizada', 'success');
+  }
+}
+
+// Eliminar producto del carrito
+function eliminarProducto(id) {
+  const producto = carrito.find(p => p.id === id);
+  if (producto) {
+    carrito = carrito.filter(p => p.id !== id);
+    guardarCarrito();
+    actualizarCarrito();
+    mostrarNotificacion(`${producto.nombre} eliminado del carrito`, 'info');
+  }
+}
+
+// Vaciar carrito
+function vaciarCarrito() {
+  if (carrito.length === 0) return;
+  document.getElementById('modal-vaciar').classList.remove('hidden');
+}
+
+function confirmarVaciarCarrito() {
+  carrito = [];
+  descuentoAplicado = 0;
+  guardarCarrito();
+  actualizarCarrito();
+  cerrarModal('modal-vaciar');
+  mostrarNotificacion('Carrito vaciado', 'info');
+}
+
+function cerrarModal(modalId) {
+  document.getElementById(modalId).classList.add('hidden');
+}
+
+// Aplicar código de descuento
+function aplicarDescuento() {
+  const codigo = document.getElementById('codigo-descuento').value.trim().toUpperCase();
+  
+  if (!codigo) {
+    mostrarNotificacion('Ingresa un código de descuento', 'error');
+    return;
+  }
+
+  // Códigos de ejemplo (en producción esto vendría de la API)
+  const codigosValidos = {
+    'DESCUENTO10': 0.10,
+    'BIENVENIDO': 0.15,
+    'PRIMERACOMPRA': 0.20
+  };
+
+  if (codigosValidos[codigo]) {
+    const subtotal = carrito.reduce((sum, producto) => {
+      return sum + (calcularPrecioProducto(producto) * producto.cantidad);
+    }, 0);
+    
+    descuentoAplicado = subtotal * codigosValidos[codigo];
+    document.getElementById('codigo-descuento').value = '';
+    actualizarResumen();
+    mostrarNotificacion(`Código aplicado: ${Math.round(codigosValidos[codigo] * 100)}% de descuento`, 'success');
+  } else {
+    mostrarNotificacion('Código de descuento inválido', 'error');
+  }
+}
+
+// Proceder al pago
+function procederPago() {
+  if (carrito.length === 0) {
+    mostrarNotificacion('Tu carrito está vacío', 'error');
+    return;
+  }
+
+  // Validar que hay productos en el carrito
+  if (carrito.length === 0) {
+    mostrarNotificacion('Agrega productos a tu carrito antes de continuar', 'error');
+    return;
+  }
+
+  // Redirigir al checkout
+  mostrarNotificacion('Redirigiendo al checkout...', 'info');
+  
+  setTimeout(() => {
+    window.location.href = '/checkout';
+  }, 1000);
+}
+
+// Contactar por WhatsApp
+function contactarWhatsApp() {
+  if (carrito.length === 0) {
+    mostrarNotificacion('Tu carrito está vacío', 'error');
+    return;
+  }
+
+  let mensaje = 'Hola, me interesa realizar el siguiente pedido:\n\n';
+  let total = 0;
+
+  carrito.forEach(producto => {
+    const precio = calcularPrecioProducto(producto);
+    const cantidad = parseInt(producto.cantidad) || 1;
+    const subtotal = precio * cantidad;
+    mensaje += `• ${producto.nombre}\n  Cantidad: ${cantidad}\n  Precio: ${formatearPrecio(precio)}\n  Subtotal: ${formatearPrecio(subtotal)}\n\n`;
+    total += subtotal;
+  });
+
+  mensaje += `Total: ${formatearPrecio(total)}\n\n¿Podrían confirmarme disponibilidad y proceso de compra?`;
+
+  const mensajeCodificado = encodeURIComponent(mensaje);
+  window.open(`https://wa.me/56932538029?text=${mensajeCodificado}`, '_blank');
+}
+
+// Formatear precio
+function formatearPrecio(precio) {
+  return new Intl.NumberFormat('es-CL').format(Math.round(precio));
+}
+
+// Sistema de notificaciones
+function mostrarNotificacion(mensaje, tipo = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `fixed top-24 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300 max-w-sm ${
+    tipo === 'success' ? 'bg-green-500 text-white' : 
+    tipo === 'error' ? 'bg-red-500 text-white' : 
+    'bg-blue-500 text-white'
+  }`;
+  
+  notification.innerHTML = `
+    <div class="flex items-center gap-3">
+      <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+      <span class="text-sm">${mensaje}</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.transform = 'translateX(100%)';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Cerrar modal con ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+      modal.classList.add('hidden');
+    });
+  }
+});
+</script>
+
+<style>
+/* Estilos específicos del carrito */
+.bg-dark-700 { background-color: #374151; }
+.bg-dark-800 { background-color: #1f2937; }
+.border-gray-600 { border-color: #4b5563; }
+.border-gray-700 { border-color: #374151; }
+
+/* Animaciones suaves */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Botones deshabilitados */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  transform: none;
+}
+
+/* Hover effects */
+button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+/* Estados de carga */
+.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .lg\:col-span-2 {
+    grid-column: span 1;
+  }
+  
+  .lg\:col-span-1 {
+    grid-column: span 1;
+  }
+  
+  .flex.items-center.gap-6 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .text-right {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+/* Sticky sidebar en desktop */
+@media (min-width: 1024px) {
+  .sticky {
+    position: sticky;
+  }
+}
+</style>
+{% endblock %}

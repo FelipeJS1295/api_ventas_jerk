@@ -1,0 +1,1221 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}Finalizar Compra - Jerk Home{% endblock %}
+
+{% block description %}Finaliza tu compra de forma segura. Proceso de checkout rápido y confiable en Jerk Home.{% endblock %}
+
+{% block breadcrumb %}
+<section class="bg-dark-800 py-6 mt-20">
+  <div class="container mx-auto px-6">
+    <nav class="flex" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+          <a href="/inicio" class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-home w-4 h-4 mr-2"></i>
+            Inicio
+          </a>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <i class="fas fa-chevron-right w-4 h-4 text-gray-600 mx-2"></i>
+            <a href="/carrito" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">
+              Carrito
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <i class="fas fa-chevron-right w-4 h-4 text-gray-600 mx-2"></i>
+            <span class="text-sm font-medium text-white">Checkout</span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<!-- Checkout Container -->
+<section class="min-h-screen bg-gradient-to-b from-[#1a0e0a] to-[#0d0603] text-white py-24">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <!-- Progress Indicator -->
+    <div class="mb-16">
+      <div class="relative">
+        <!-- Progress Line -->
+        <div class="flex items-center justify-between mb-8">
+          <div class="flex-1 h-1 bg-dark-700 rounded-full mx-4">
+            <div id="progress-bar" class="h-full bg-gradient-to-r from-brand-coral-500 to-brand-coral-400 rounded-full transition-all duration-700" style="width: 25%;"></div>
+          </div>
+        </div>
+        
+        <!-- Truck Animation -->
+        <div class="relative">
+          <div id="truck-animation" class="absolute top-0 transition-all duration-700 ease-in-out" style="left: 10%;">
+            <div class="bg-gradient-to-r from-brand-coral-500 to-brand-coral-400 text-white p-3 rounded-full shadow-lg glass-subtle">
+              <i class="fas fa-truck text-lg"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step Labels -->
+        <div class="flex justify-between mt-12 text-sm font-medium">
+          <div id="step-1-label" class="flex flex-col items-center text-brand-coral-400">
+            <div class="w-10 h-10 bg-gradient-to-r from-brand-coral-500 to-brand-coral-400 text-white rounded-full flex items-center justify-center mb-2 shadow-lg">
+              <i class="fas fa-user text-sm"></i>
+            </div>
+            <span class="text-white">Datos</span>
+          </div>
+          <div id="step-2-label" class="flex flex-col items-center text-gray-500">
+            <div class="w-10 h-10 bg-dark-700 text-gray-400 rounded-full flex items-center justify-center mb-2">
+              <i class="fas fa-map-marker-alt text-sm"></i>
+            </div>
+            <span>Envío</span>
+          </div>
+          <div id="step-3-label" class="flex flex-col items-center text-gray-500">
+            <div class="w-10 h-10 bg-dark-700 text-gray-400 rounded-full flex items-center justify-center mb-2">
+              <i class="fas fa-credit-card text-sm"></i>
+            </div>
+            <span>Pago</span>
+          </div>
+          <div id="step-4-label" class="flex flex-col items-center text-gray-500">
+            <div class="w-10 h-10 bg-dark-700 text-gray-400 rounded-full flex items-center justify-center mb-2">
+              <i class="fas fa-check text-sm"></i>
+            </div>
+            <span>Confirmación</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-12">
+      
+      <!-- Main Form -->
+      <div class="lg:col-span-2">
+        <form id="checkout-form">
+          
+          <!-- STEP 1: Customer Data -->
+          <div id="step-1" class="step-content glass-subtle rounded-2xl border border-white/10 p-8">
+            <div class="flex items-center mb-8">
+              <div class="w-12 h-12 bg-gradient-to-r from-brand-coral-500/20 to-brand-coral-400/20 text-brand-coral-400 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-user text-lg"></i>
+              </div>
+              <div>
+                <h2 class="text-2xl font-semibold text-white">Datos del Cliente</h2>
+                <p class="text-gray-400 text-sm">Información básica para el pedido</p>
+              </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-3">Nombre Completo *</label>
+                <input type="text" id="cliente_final" name="cliente_final" required 
+                       class="w-full px-4 py-3 bg-dark-800/50 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+                       placeholder="Ingresa tu nombre completo">
+                <div class="error-message hidden text-red-400 text-sm mt-2"></div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-3">RUT *</label>
+                <input type="text" id="rut_documento" name="rut_documento" required 
+                       class="w-full px-4 py-3 bg-dark-800/50 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+                       placeholder="12.345.678-9"
+                       maxlength="12">
+                <div class="error-message hidden text-red-400 text-sm mt-2"></div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-3">Email *</label>
+                <input type="email" id="email" name="email" required 
+                       class="w-full px-4 py-3 bg-dark-800/50 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+                       placeholder="tu@email.com">
+                <div class="error-message hidden text-red-400 text-sm mt-2"></div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-3">Teléfono *</label>
+                <input type="tel" id="telefono" name="telefono" required 
+                       class="w-full px-4 py-3 bg-dark-800/50 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+                       placeholder="+56 9 0000 0000">
+                <div class="error-message hidden text-red-400 text-sm mt-2"></div>
+              </div>
+            </div>
+            
+            <div class="flex justify-end mt-8">
+              <button type="button" id="btn-step-1" class="btn-premium text-white px-8 py-3 rounded-lg font-medium transition-all flex items-center gap-2">
+                <span class="relative z-10">Continuar</span>
+                <i class="fas fa-arrow-right relative z-10"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Shipping Data -->
+          <div id="step-2" class="step-content glass-subtle rounded-2xl border border-white/10 p-8 hidden">
+            <div class="flex items-center mb-8">
+              <div class="w-12 h-12 bg-gradient-to-r from-brand-coral-500/20 to-brand-coral-400/20 text-brand-coral-400 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-map-marker-alt text-lg"></i>
+              </div>
+              <div>
+                <h2 class="text-2xl font-semibold text-white">Datos de Envío</h2>
+                <p class="text-gray-400 text-sm">Información de entrega</p>
+              </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-3">Región *</label>
+                <select id="region" name="region" required 
+                        class="w-full px-4 py-3 bg-dark-800/50 border border-white/20 rounded-lg text-white focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all">
+                  <option value="">Selecciona una región</option>
+                  <option value="Metropolitana">Región Metropolitana</option>
+                  <option value="Valparaíso">Región de Valparaíso</option>
+                  <option value="O'Higgins">Región del Libertador General Bernardo O'Higgins</option>
+                  <option value="Maule">Región del Maule</option>
+                  <option value="Biobío">Región del Biobío</option>
+                  <option value="Araucanía">Región de La Araucanía</option>
+                </select>
+                <div class="error-message hidden text-red-400 text-sm mt-2"></div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-3">Comuna *</label>
+                <select id="comuna" name="comuna" required 
+                        class="w-full px-4 py-3 bg-dark-800/50 border border-white/20 rounded-lg text-white focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all">
+                  <option value="">Primero selecciona una región</option>
+                </select>
+                <div class="error-message hidden text-red-400 text-sm mt-2"></div>
+              </div>
+              
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-300 mb-3">Dirección *</label>
+                <input type="text" id="direccion" name="direccion" required 
+                       class="w-full px-4 py-3 bg-dark-800/50 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:border-brand-coral-500 focus:ring-1 focus:ring-brand-coral-500 outline-none transition-all"
+                       placeholder="Calle, número, depto/oficina">
+                <div class="error-message hidden text-red-400 text-sm mt-2"></div>
+              </div>
+            </div>
+            
+            <div class="flex justify-between mt-8">
+              <button type="button" id="btn-back-1" class="btn-ghost text-white px-8 py-3 rounded-lg font-medium transition-all flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+              </button>
+              <button type="button" id="btn-step-2" class="btn-premium text-white px-8 py-3 rounded-lg font-medium transition-all flex items-center gap-2">
+                <span class="relative z-10">Continuar</span>
+                <i class="fas fa-arrow-right relative z-10"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Payment Method -->
+          <div id="step-3" class="step-content glass-subtle rounded-2xl border border-white/10 p-8 hidden">
+            <div class="flex items-center mb-8">
+              <div class="w-12 h-12 bg-gradient-to-r from-brand-coral-500/20 to-brand-coral-400/20 text-brand-coral-400 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-credit-card text-lg"></i>
+              </div>
+              <div>
+                <h2 class="text-2xl font-semibold text-white">Método de Pago</h2>
+                <p class="text-gray-400 text-sm">Selecciona tu método de pago preferido</p>
+              </div>
+            </div>
+            
+            <div class="space-y-4">
+              <!-- Bank Transfer -->
+              <div class="payment-method glass-subtle border border-white/10 rounded-xl p-6 cursor-pointer hover:border-brand-coral-500/50 transition-all" data-method="transferencia">
+                <div class="flex items-center">
+                  <input type="radio" id="transferencia" name="payment_method" value="transferencia" class="w-4 h-4 text-brand-coral-500">
+                  <label for="transferencia" class="ml-4 flex items-center cursor-pointer flex-1">
+                    <div class="w-12 h-12 bg-green-500/20 text-green-400 rounded-lg flex items-center justify-center mr-4">
+                      <i class="fas fa-university"></i>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white">Transferencia Bancaria</div>
+                      <div class="text-sm text-gray-400">Transfiere desde tu banco</div>
+                    </div>
+                  </label>
+                  <div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-lg text-xs font-medium">Disponible</div>
+                </div>
+              </div>
+
+              <!-- WebPay -->
+              <div class="payment-method glass-subtle border border-white/10 rounded-xl p-6 cursor-pointer hover:border-brand-coral-500 transition-all" data-method="webpay">
+                <div class="flex items-center">
+                  <input type="radio" id="webpay" name="payment_method" value="webpay" class="w-4 h-4 text-brand-coral-500">
+                  <label for="webpay" class="ml-4 flex items-center cursor-pointer flex-1">
+                    <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mr-4">
+                      <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white">WebPay Plus</div>
+                      <div class="text-sm text-gray-400">Tarjetas de crédito y débito</div>
+                    </div>
+                  </label>
+                  <div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-lg text-xs font-medium">Disponible</div>
+                </div>
+              </div>
+
+
+              <!-- MercadoPago -->
+              <div class="payment-method glass-subtle border border-white/10 rounded-xl p-6 cursor-not-allowed opacity-50" data-method="mercadopago">
+                <div class="flex items-center">
+                  <input type="radio" id="mercadopago" name="payment_method" value="mercadopago" disabled class="w-4 h-4 text-brand-coral-500">
+                  <label for="mercadopago" class="ml-4 flex items-center cursor-not-allowed flex-1">
+                    <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center mr-4">
+                      <i class="fab fa-cc-mastercard"></i>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white">MercadoPago</div>
+                      <div class="text-sm text-gray-400">Pago con MercadoPago</div>
+                    </div>
+                  </label>
+                  <div class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-lg text-xs font-medium">Próximamente</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex justify-between mt-8">
+              <button type="button" id="btn-back-2" class="btn-ghost text-white px-8 py-3 rounded-lg font-medium transition-all flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+              </button>
+              <button type="button" id="btn-step-3" class="btn-premium text-white px-8 py-3 rounded-lg font-medium transition-all flex items-center gap-2">
+                <span class="relative z-10">Continuar</span>
+                <i class="fas fa-arrow-right relative z-10"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Confirmation -->
+          <div id="step-4" class="step-content glass-subtle rounded-2xl border border-white/10 p-8 hidden">
+            <div class="flex items-center mb-8">
+              <div class="w-12 h-12 bg-gradient-to-r from-brand-coral-500/20 to-brand-coral-400/20 text-brand-coral-400 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-check text-lg"></i>
+              </div>
+              <div>
+                <h2 class="text-2xl font-semibold text-white">Confirmar Pedido</h2>
+                <p class="text-gray-400 text-sm">Revisa los datos antes de finalizar</p>
+              </div>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="bg-dark-800/30 rounded-xl p-6 mb-8 border border-white/10">
+              <h3 class="font-medium text-white mb-6 flex items-center gap-2">
+                <i class="fas fa-clipboard-list text-brand-coral-400"></i>
+                Resumen de la Compra
+              </h3>
+              
+              <div class="grid md:grid-cols-2 gap-8 text-sm">
+                <div>
+                  <h4 class="font-medium text-gray-300 mb-3 flex items-center gap-2">
+                    <i class="fas fa-user text-brand-coral-400"></i>
+                    Datos del Cliente
+                  </h4>
+                  <div id="resumen-cliente" class="space-y-2 text-gray-400"></div>
+                </div>
+                
+                <div>
+                  <h4 class="font-medium text-gray-300 mb-3 flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt text-brand-coral-400"></i>
+                    Datos de Envío
+                  </h4>
+                  <div id="resumen-envio" class="space-y-2 text-gray-400"></div>
+                </div>
+              </div>
+              
+              <div class="mt-6 pt-6 border-t border-white/10">
+                <h4 class="font-medium text-gray-300 mb-3 flex items-center gap-2">
+                  <i class="fas fa-credit-card text-brand-coral-400"></i>
+                  Método de Pago
+                </h4>
+                <div id="resumen-pago" class="text-sm text-gray-400"></div>
+              </div>
+            </div>
+            
+            <div class="flex justify-between">
+              <button type="button" id="btn-back-3" class="btn-ghost text-white px-8 py-3 rounded-lg font-medium transition-all flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+              </button>
+              <button type="button" id="btn-finalizar" class="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white px-8 py-3 rounded-lg font-medium transition-all flex items-center gap-2 shadow-lg">
+                <i class="fas fa-lock"></i>
+                <span>Finalizar Compra</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="lg:col-span-1">
+        <div class="glass-subtle rounded-2xl border border-white/10 p-6 sticky top-8">
+          <h3 class="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+            <i class="fas fa-receipt text-brand-coral-400"></i>
+            Resumen del Pedido
+          </h3>
+          
+          <!-- Cart Items -->
+          <div id="cart-items" class="space-y-4 mb-6">
+            <!-- Loaded dynamically -->
+          </div>
+          
+          <!-- Totals -->
+          <div class="border-t border-white/20 pt-4 space-y-3">
+            <div class="flex justify-between text-sm text-gray-300">
+              <span>Subtotal</span>
+              <span id="subtotal" class="font-medium text-white">$0</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-300">
+              <span>Envío</span>
+              <span id="shipping-cost" class="font-medium text-green-400">Por calcular</span>
+            </div>
+            <div class="flex justify-between text-lg font-semibold border-t border-white/20 pt-3">
+              <span class="text-white">Total</span>
+              <span id="total" class="text-brand-coral-400 text-xl">$0</span>
+            </div>
+          </div>
+          
+          <!-- Delivery Info -->
+          <div class="mt-6 p-4 bg-gradient-to-r from-brand-coral-500/10 to-brand-coral-400/10 rounded-lg border border-brand-coral-500/20">
+            <div class="flex items-center text-brand-coral-400 mb-2">
+              <i class="fas fa-truck mr-2"></i>
+              <span class="text-sm font-medium">Fecha estimada de entrega</span>
+            </div>
+            <div id="delivery-date" class="text-sm text-white">Se calculará en el proceso</div>
+          </div>
+
+          <!-- Security Badge -->
+          <div class="mt-6 pt-6 border-t border-white/10">
+            <div class="flex items-center justify-center gap-4 text-xs text-gray-400">
+              <div class="flex items-center gap-1">
+                <i class="fas fa-shield-alt text-green-400"></i>
+                <span>Compra segura</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <i class="fas fa-lock text-blue-400"></i>
+                <span>SSL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+  <div class="glass-subtle rounded-xl p-8 flex items-center space-x-4 border border-white/20">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-coral-500"></div>
+    <span class="text-white font-medium">Procesando tu pedido...</span>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Variables globales
+let currentStep = 1;
+let cartItems = [];
+let orderData = {};
+
+// Datos de comunas por región (reducido para el ejemplo)
+const comunasPorRegion = {
+  "Arica y Parinacota": [
+    "Arica", "Camarones", "Putre", "General Lagos"
+  ],
+  "Tarapacá": [
+    "Iquique", "Alto Hospicio", "Pozo Almonte", "Camiña", "Colchane", "Huara", "Pica"
+  ],
+  "Antofagasta": [
+    "Antofagasta", "Mejillones", "Sierra Gorda", "Taltal", "Calama", "Ollagüe", "San Pedro de Atacama", "Tocopilla", "María Elena"
+  ],
+  "Atacama": [
+    "Copiapó", "Caldera", "Tierra Amarilla", "Chañaral", "Diego de Almagro", "Vallenar", "Alto del Carmen", "Freirina", "Huasco"
+  ],
+  "Coquimbo": [
+    "La Serena", "Coquimbo", "Andacollo", "La Higuera", "Paiguano", "Vicuña", "Illapel", "Canela", "Los Vilos", "Salamanca", "Ovalle", "Combarbalá", "Monte Patria", "Punitaqui", "Río Hurtado"
+  ],
+  "Valparaíso": [
+    "Valparaíso", "Casablanca", "Concón", "Juan Fernández", "Puchuncaví", "Quintero", "Viña del Mar", "Isla de Pascua", "Los Andes", "Calle Larga", "Rinconada", "San Esteban", "La Ligua", "Cabildo", "Papudo", "Petorca", "Zapallar", "Quillota", "Calera", "Hijuelas", "La Cruz", "Nogales", "San Antonio", "Algarrobo", "Cartagena", "El Quisco", "El Tabo", "Santo Domingo", "San Felipe", "Catemu", "Llaillay", "Panquehue", "Putaendo", "Santa María", "Quilpué", "Limache", "Olmué", "Villa Alemana"
+  ],
+  "Metropolitana": [
+    "Cerrillos", "Cerro Navia", "Conchalí", "El Bosque", "Estación Central", "Huechuraba", "Independencia", "La Cisterna", "La Florida", "La Granja", "La Pintana", "La Reina", "Las Condes", "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "Ñuñoa", "Pedro Aguirre Cerda", "Peñalolén", "Providencia", "Pudahuel", "Quilicura", "Quinta Normal", "Recoleta", "Renca", "San Joaquín", "San Miguel", "San Ramón", "Santiago", "Vitacura", "Puente Alto", "Pirque", "San José de Maipo", "Colina", "Lampa", "Tiltil", "San Bernardo", "Buin", "Calera de Tango", "Paine", "Melipilla", "Alhué", "Curacaví", "María Pinto", "San Pedro", "Talagante", "El Monte", "Isla de Maipo", "Padre Hurtado", "Peñaflor"
+  ],
+  "O'Higgins": [
+    "Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo", "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente", "Pichilemu", "La Estrella", "Litueche", "Marchihue", "Navidad", "Paredones", "San Fernando", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla", "Peralillo", "Placilla", "Pumanque", "Santa Cruz"
+  ],
+  "Maule": [
+    "Talca", "Constitución", "Curepto", "Empedrado", "Maule", "Pelarco", "Pencahue", "Río Claro", "San Clemente", "San Rafael", "Cauquenes", "Chanco", "Pelluhue", "Curicó", "Hualañé", "Licantén", "Molina", "Rauco", "Romeral", "Sagrada Familia", "Teno", "Vichuquén", "Linares", "Colbún", "Longaví", "Parral", "Retiro", "San Javier", "Villa Alegre", "Yerbas Buenas"
+  ],
+  "Ñuble": [
+    "Chillán", "Bulnes", "Chillán Viejo", "El Carmen", "Pemuco", "Pinto", "Quillón", "San Ignacio", "Yungay", "Cobquecura", "Coelemu", "Ninhue", "Portezuelo", "Quirihue", "Ránquil", "Treguaco", "San Carlos", "Coihueco", "Ñiquén", "San Fabián", "San Nicolás"
+  ],
+  "Biobío": [
+    "Concepción", "Coronel", "Chiguayante", "Florida", "Hualqui", "Lota", "Penco", "San Pedro de la Paz", "Santa Juana", "Talcahuano", "Tomé", "Hualpén", "Lebu", "Arauco", "Cañete", "Contulmo", "Curanilahue", "Los Álamos", "Tirúa", "Los Ángeles", "Antuco", "Cabrero", "Laja", "Mulchén", "Nacimiento", "Negrete", "Quilaco", "Quilleco", "San Rosendo", "Santa Bárbara", "Tucapel", "Yumbel", "Alto Biobío"
+  ],
+  "Araucanía": [
+    "Temuco", "Carahue", "Cunco", "Curarrehue", "Freire", "Galvarino", "Gorbea", "Lautaro", "Loncoche", "Melipeuco", "Nueva Imperial", "Padre Las Casas", "Perquenco", "Pitrufquén", "Pucón", "Saavedra", "Teodoro Schmidt", "Toltén", "Vilcún", "Villarrica", "Cholchol", "Angol", "Collipulli", "Curacautín", "Ercilla", "Lonquimay", "Los Sauces", "Lumaco", "Purén", "Renaico", "Traiguén", "Victoria"
+  ],
+  "Los Ríos": [
+    "Valdivia", "Corral", "Lanco", "Los Lagos", "Máfil", "Mariquina", "Paillaco", "Panguipulli", "La Unión", "Futrono", "Lago Ranco", "Río Bueno"
+  ],
+  "Los Lagos": [
+    "Puerto Montt", "Calbuco", "Cochamó", "Fresia", "Frutillar", "Los Muermos", "Llanquihue", "Maullín", "Puerto Varas", "Castro", "Ancud", "Chonchi", "Curaco de Vélez", "Dalcahue", "Puqueldón", "Queilén", "Quellón", "Quemchi", "Quinchao", "Osorno", "Puerto Octay", "Purranque", "Puyehue", "Río Negro", "San Juan de la Costa", "San Pablo", "Chaitén", "Futaleufú", "Hualaihué", "Palena"
+  ],
+  "Aysén": [
+    "Coyhaique", "Lago Verde", "Aysén", "Cisnes", "Guaitecas", "Cochrane", "O'Higgins", "Tortel", "Chile Chico", "Río Ibáñez"
+  ],
+  "Magallanes": [
+    "Punta Arenas", "Laguna Blanca", "Río Verde", "San Gregorio", "Cabo de Hornos", "Antártica", "Porvenir", "Primavera", "Timaukel", "Natales", "Torres del Paine"
+  ]
+};
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+  loadCartItems();
+  initializeEventListeners();
+  updateProgress();
+});
+
+// Cargar productos del carrito
+function loadCartItems() {
+  const cart = JSON.parse(localStorage.getItem('carrito')) || [];
+  cartItems = cart;
+  
+  if (cartItems.length === 0) {
+    window.location.href = '/productos';
+    return;
+  }
+  
+  displayCartItems();
+  calculateTotals();
+}
+
+// Mostrar productos en el resumen
+function displayCartItems() {
+  const container = document.getElementById('cart-items');
+  container.innerHTML = '';
+  
+  cartItems.forEach(item => {
+    const itemElement = document.createElement('div');
+    itemElement.className = 'flex items-center space-x-3 p-3 bg-dark-800/30 rounded-lg border border-white/10';
+    
+    const imagen = item.imagen || item.img_1 || '/static/images/no-image.jpg';
+    const precio = parseFloat(item.precio_venta || item.precio || 0);
+    
+    itemElement.innerHTML = `
+      <div class="w-16 h-16 bg-dark-700 rounded-lg flex items-center justify-center overflow-hidden">
+        <img src="${imagen}" alt="${item.nombre}" class="w-full h-full object-cover" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="w-full h-full bg-dark-700 flex items-center justify-center" style="display:none;">
+          <i class="fas fa-image text-gray-500"></i>
+        </div>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h4 class="text-sm font-medium text-white truncate">${item.nombre}</h4>
+        <p class="text-xs text-gray-400">Cantidad: ${item.cantidad}</p>
+        <p class="text-sm font-medium text-brand-coral-400">$${formatNumber(precio * item.cantidad)}</p>
+      </div>
+    `;
+    container.appendChild(itemElement);
+  });
+}
+
+// Calcular totales
+function calculateTotals() {
+  const subtotal = cartItems.reduce((total, item) => {
+    const precio = parseFloat(item.precio_venta || item.precio || 0);
+    return total + (precio * item.cantidad);
+  }, 0);
+  
+  const shipping = 0; // Por ahora sin costo de envío
+  const total = subtotal + shipping;
+  
+  document.getElementById('subtotal').textContent = '$' + formatNumber(subtotal);
+  document.getElementById('shipping-cost').textContent = shipping === 0 ? 'Gratis' : '$' + formatNumber(shipping);
+  document.getElementById('total').textContent = '$' + formatNumber(total);
+  
+  // Calcular fecha de entrega (3 días después)
+  const deliveryDate = new Date();
+  deliveryDate.setDate(deliveryDate.getDate() + 3);
+  document.getElementById('delivery-date').textContent = deliveryDate.toLocaleDateString('es-CL', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// Formatear números
+function formatNumber(num) {
+  return new Intl.NumberFormat('es-CL').format(Math.round(num));
+}
+
+// Event listeners
+function initializeEventListeners() {
+  // Navegación entre pasos
+  document.getElementById('btn-step-1').addEventListener('click', () => validateAndNext(1));
+  document.getElementById('btn-step-2').addEventListener('click', () => validateAndNext(2));
+  document.getElementById('btn-step-3').addEventListener('click', () => validateAndNext(3));
+  document.getElementById('btn-finalizar').addEventListener('click', finalizarCompra);
+  
+  // Botones de volver
+  document.getElementById('btn-back-1').addEventListener('click', () => goToStep(1));
+  document.getElementById('btn-back-2').addEventListener('click', () => goToStep(2));
+  document.getElementById('btn-back-3').addEventListener('click', () => goToStep(3));
+  
+  // Formato RUT automático
+  document.getElementById('rut_documento').addEventListener('input', formatRUT);
+  
+  // Cambio de región para cargar comunas
+  document.getElementById('region').addEventListener('change', loadComunas);
+  
+  // Selección de método de pago
+  document.querySelectorAll('.payment-method').forEach(method => {
+    method.addEventListener('click', function() {
+      if (!this.classList.contains('cursor-not-allowed')) {
+        const radio = this.querySelector('input[type="radio"]');
+        radio.checked = true;
+        
+        // Actualizar estilos
+        document.querySelectorAll('.payment-method').forEach(m => {
+          m.classList.remove('border-brand-coral-500', 'bg-brand-coral-500/10');
+        });
+        this.classList.add('border-brand-coral-500', 'bg-brand-coral-500/10');
+      }
+    });
+  });
+}
+
+// Validación RUT chileno
+function validarRUT(rut) {
+  rut = rut.replace(/\./g, '').replace('-', '');
+  
+  if (rut.length < 8 || rut.length > 9) return false;
+  
+  const dv = rut.slice(-1).toLowerCase();
+  const numero = rut.slice(0, -1);
+  
+  if (!/^\d+$/.test(numero)) return false;
+  
+  let suma = 0;
+  let multiplicador = 2;
+  
+  for (let i = numero.length - 1; i >= 0; i--) {
+    suma += parseInt(numero[i]) * multiplicador;
+    multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+  }
+  
+  const dvCalculado = 11 - (suma % 11);
+  let dvFinal;
+  
+  if (dvCalculado === 11) dvFinal = '0';
+  else if (dvCalculado === 10) dvFinal = 'k';
+  else dvFinal = dvCalculado.toString();
+  
+  return dv === dvFinal;
+}
+
+// Formatear RUT mientras se escribe
+function formatRUT(e) {
+  let value = e.target.value.replace(/\./g, '').replace('-', '');
+  
+  if (value.length > 1) {
+    const dv = value.slice(-1);
+    const numero = value.slice(0, -1);
+    
+    // Agregar puntos cada 3 dígitos
+    const numeroFormateado = numero.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    
+    value = numeroFormateado + '-' + dv;
+  }
+  
+  e.target.value = value;
+}
+
+// Cargar comunas según región
+function loadComunas() {
+  const regionSelect = document.getElementById('region');
+  const comunaSelect = document.getElementById('comuna');
+  const selectedRegion = regionSelect.value;
+  
+  comunaSelect.innerHTML = '<option value="">Selecciona una comuna</option>';
+  
+  if (selectedRegion && comunasPorRegion[selectedRegion]) {
+    comunasPorRegion[selectedRegion].forEach(comuna => {
+      const option = document.createElement('option');
+      option.value = comuna;
+      option.textContent = comuna;
+      comunaSelect.appendChild(option);
+    });
+  }
+}
+
+// Validar paso y continuar
+function validateAndNext(step) {
+  if (validateStep(step)) {
+    goToStep(step + 1);
+  }
+}
+
+// Validación por paso
+function validateStep(step) {
+  if (step === 4) {
+    return validateStep4();
+  }
+  
+  // Resto de validaciones existentes...
+  let isValid = true;
+  
+  // Limpiar errores anteriores
+  document.querySelectorAll('.error-message').forEach(msg => {
+    msg.classList.add('hidden');
+    msg.textContent = '';
+  });
+  
+  document.querySelectorAll('.border-red-500').forEach(input => {
+    input.classList.remove('border-red-500');
+    input.classList.add('border-white/20');
+  });
+  
+  if (step === 1) {
+    // Validar datos del cliente
+    const nombre = document.getElementById('cliente_final').value.trim();
+    const rut = document.getElementById('rut_documento').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    
+    if (!nombre) {
+      showError('cliente_final', 'El nombre es obligatorio');
+      isValid = false;
+    }
+    
+    if (!rut) {
+      showError('rut_documento', 'El RUT es obligatorio');
+      isValid = false;
+    } else if (!validarRUT(rut)) {
+      showError('rut_documento', 'El RUT no es válido');
+      isValid = false;
+    }
+    
+    if (!email) {
+      showError('email', 'El email es obligatorio');
+      isValid = false;
+    } else if (!isValidEmail(email)) {
+      showError('email', 'El email no es válido');
+      isValid = false;
+    }
+    
+    if (!telefono) {
+      showError('telefono', 'El teléfono es obligatorio');
+      isValid = false;
+    }
+    
+  } else if (step === 2) {
+    // Validar datos de envío
+    const region = document.getElementById('region').value;
+    const comuna = document.getElementById('comuna').value;
+    const direccion = document.getElementById('direccion').value.trim();
+    
+    if (!region) {
+      showError('region', 'Selecciona una región');
+      isValid = false;
+    }
+    
+    if (!comuna) {
+      showError('comuna', 'Selecciona una comuna');
+      isValid = false;
+    }
+    
+    if (!direccion) {
+      showError('direccion', 'La dirección es obligatoria');
+      isValid = false;
+    }
+    
+  } else if (step === 3) {
+    // Validar método de pago
+    const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+    
+    if (!paymentMethod) {
+      showNotification('Selecciona un método de pago', 'error');
+      isValid = false;
+    }
+  }
+  
+  return isValid;
+}
+
+// Mostrar error
+function showError(fieldId, message) {
+  const field = document.getElementById(fieldId);
+  const errorDiv = field.parentNode.querySelector('.error-message');
+  
+  field.classList.remove('border-white/20');
+  field.classList.add('border-red-500');
+  errorDiv.textContent = message;
+  errorDiv.classList.remove('hidden');
+}
+
+// Validar email
+function isValidEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+// Ir a un paso específico
+function goToStep(step) {
+  // Ocultar todos los pasos
+  document.querySelectorAll('.step-content').forEach(content => {
+    content.classList.add('hidden');
+  });
+  
+  // Mostrar paso actual
+  document.getElementById(`step-${step}`).classList.remove('hidden');
+  
+  currentStep = step;
+  updateProgress();
+  animateTruck();
+  
+  if (step === 4) {
+    showSummary();
+  }
+}
+
+// Actualizar barra de progreso
+function updateProgress() {
+  const progressBar = document.getElementById('progress-bar');
+  const progressPercentage = (currentStep / 4) * 100;
+  progressBar.style.width = `${progressPercentage}%`;
+  
+  // Actualizar labels de pasos
+  for (let i = 1; i <= 4; i++) {
+    const label = document.getElementById(`step-${i}-label`);
+    const circle = label.querySelector('div');
+    
+    if (i <= currentStep) {
+      // Paso completado o actual
+      label.classList.remove('text-gray-500');
+      label.classList.add('text-brand-coral-400');
+      circle.classList.remove('bg-dark-700', 'text-gray-400');
+      circle.classList.add('bg-gradient-to-r', 'from-brand-coral-500', 'to-brand-coral-400', 'text-white', 'shadow-lg');
+    } else {
+      // Paso pendiente
+      label.classList.remove('text-brand-coral-400');
+      label.classList.add('text-gray-500');
+      circle.classList.remove('bg-gradient-to-r', 'from-brand-coral-500', 'to-brand-coral-400', 'text-white', 'shadow-lg');
+      circle.classList.add('bg-dark-700', 'text-gray-400');
+    }
+  }
+}
+
+// Animar camión
+function animateTruck() {
+  const truck = document.getElementById('truck-animation');
+  const positions = ['10%', '35%', '60%', '85%'];
+  
+  truck.style.left = positions[currentStep - 1];
+}
+
+// Mostrar resumen en el paso 4
+function showSummary() {
+  // Resumen del cliente
+  const resumenCliente = document.getElementById('resumen-cliente');
+  resumenCliente.innerHTML = `
+    <div><strong>Nombre:</strong> ${document.getElementById('cliente_final').value}</div>
+    <div><strong>RUT:</strong> ${document.getElementById('rut_documento').value}</div>
+    <div><strong>Email:</strong> ${document.getElementById('email').value}</div>
+    <div><strong>Teléfono:</strong> ${document.getElementById('telefono').value}</div>
+  `;
+  
+  // Resumen del envío
+  const resumenEnvio = document.getElementById('resumen-envio');
+  resumenEnvio.innerHTML = `
+    <div><strong>Región:</strong> ${document.getElementById('region').value}</div>
+    <div><strong>Comuna:</strong> ${document.getElementById('comuna').value}</div>
+    <div><strong>Dirección:</strong> ${document.getElementById('direccion').value}</div>
+  `;
+  
+  // Resumen del pago
+  const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+  const resumenPago = document.getElementById('resumen-pago');
+  
+  if (paymentMethod) {
+    const methodText = paymentMethod.value === 'transferencia' ? 'Transferencia Bancaria' : 
+                     paymentMethod.value === 'webpay' ? 'WebPay Plus' :
+                     paymentMethod.value === 'mercadopago' ? 'MercadoPago' : 'PayPal';
+    resumenPago.innerHTML = `<div><strong>Método:</strong> ${methodText}</div>`;
+  }
+}
+
+// Finalizar compra
+async function finalizarCompra() {
+  if (!validateStep(4)) return;
+  
+  // Mostrar loading
+  document.getElementById('loading-overlay').classList.remove('hidden');
+  
+  try {
+    // Generar número de orden único
+    const numeroOrden = generateOrderNumber();
+    
+    // Preparar fechas
+    const fechaCompra = new Date().toISOString().split('T')[0];
+    const fechaEntrega = new Date();
+    fechaEntrega.setDate(fechaEntrega.getDate() + 7);
+    const fechaEntregaStr = fechaEntrega.toISOString().split('T')[0];
+    
+    console.log('🛒 Iniciando proceso de compra...');
+    console.log('📦 Productos en carrito:', cartItems);
+    
+    // Validar que tenemos productos
+    if (!cartItems || cartItems.length === 0) {
+      throw new Error('No hay productos en el carrito');
+    }
+    
+    // Calcular total del carrito
+    const totalCarrito = cartItems.reduce((total, item) => {
+      const precio = parseFloat(item.precio_venta || item.precio || 0);
+      const cantidad = parseInt(item.cantidad) || 1;
+      return total + (precio * cantidad);
+    }, 0);
+    
+    // Crear las ventas (una por cada producto)
+    const ventasPromises = cartItems.map(async (item, index) => {
+      const precio = parseFloat(item.precio_venta || item.precio || 0);
+      
+      if (precio <= 0) {
+        console.warn(`⚠️ Producto ${item.nombre} tiene precio 0 o inválido`);
+      }
+      
+      const ventaData = {
+        cliente_id: 10,
+        numero_orden: numeroOrden,
+        cliente_final: document.getElementById('cliente_final').value.trim(),
+        rut_documento: document.getElementById('rut_documento').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        telefono: document.getElementById('telefono').value.trim(),
+        fecha_compra: fechaCompra,
+        fecha_entrega: fechaEntregaStr,
+        producto: item.nombre || 'Producto sin nombre',
+        precio: precio,
+        precio_cliente: precio,
+        costo_despacho: 0,
+        comuna: document.getElementById('comuna').value,
+        direccion: document.getElementById('direccion').value.trim(),
+        region: document.getElementById('region').value,
+        sku: item.sku || '',
+        estado: 'nueva',
+        documento: 'boleta',
+        razon_social: document.getElementById('cliente_final').value.trim(),
+        rut: document.getElementById('rut_documento').value.trim(),
+        giro: 'Particular',
+        direccion_factura: document.getElementById('direccion').value.trim(),
+        courier: 'Retiro en tienda',
+        unidades: parseInt(item.cantidad) || 1,
+        users_id: 1
+      };
+      
+      console.log(`📋 Venta ${index + 1}:`, ventaData);
+      
+      const response = await fetch('/ventas/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(ventaData)
+      });
+      
+      console.log(`📤 Respuesta venta ${index + 1}:`, response.status, response.statusText);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ Error en venta ${index + 1}:`, errorText);
+        throw new Error(`Error al procesar venta ${index + 1}: ${response.status} - ${errorText}`);
+      }
+      
+      const result = await response.json();
+      console.log(`✅ Venta ${index + 1} guardada:`, result);
+      return result;
+    });
+    
+    // Esperar que todas las ventas se procesen
+    const resultados = await Promise.all(ventasPromises);
+    console.log('🎉 Todas las ventas procesadas:', resultados);
+    
+    // Obtener método de pago seleccionado
+    const metodoPago = document.querySelector('input[name="payment_method"]:checked').value;
+    
+    if (metodoPago === 'webpay') {
+      console.log('💳 Procesando pago con WebPay Plus...');
+      
+      // Crear formulario para enviar a WebPay
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/webpay/iniciar';
+      form.style.display = 'none';
+
+      // Monto en pesos (sin decimales)
+      const montoInput = document.createElement('input');
+      montoInput.type = 'hidden';
+      montoInput.name = 'monto';
+      montoInput.value = Math.round(totalCarrito);
+
+      // Número de orden
+      const ordenInput = document.createElement('input');
+      ordenInput.type = 'hidden';
+      ordenInput.name = 'orden';
+      ordenInput.value = numeroOrden;
+
+      form.appendChild(montoInput);
+      form.appendChild(ordenInput);
+      document.body.appendChild(form);
+      
+      console.log(`🚀 Redirigiendo a WebPay - Orden: ${numeroOrden}, Monto: $${Math.round(totalCarrito)}`);
+      
+      // Guardar carrito temporalmente por si hay problemas
+      sessionStorage.setItem('carrito_temp', JSON.stringify(cartItems));
+      sessionStorage.setItem('orden_temp', numeroOrden);
+      
+      // Enviar formulario
+      form.submit();
+      return;
+      
+    } else if (metodoPago === 'transferencia') {
+      console.log('🏦 Método: Transferencia bancaria');
+      
+      // Limpiar carrito
+      localStorage.removeItem('carrito');
+      
+      // Mostrar página de éxito con instrucciones de transferencia
+      showNotification('¡Compra registrada! Recibirás instrucciones de pago por email', 'success');
+      
+      setTimeout(() => {
+        window.location.href = `/compra-exitosa?orden=${numeroOrden}&metodo=transferencia`;
+      }, 2000);
+      
+    } else {
+      throw new Error('Método de pago no válido');
+    }
+    
+  } catch (error) {
+    console.error('💥 Error en finalizarCompra:', error);
+    
+    let mensajeError = 'Hubo un error al procesar tu compra. ';
+    
+    if (error.message.includes('400')) {
+      mensajeError += 'Los datos enviados no son válidos. ';
+    } else if (error.message.includes('500')) {
+      mensajeError += 'Error interno del servidor. ';
+    } else if (error.message.includes('network') || error.message.includes('fetch')) {
+      mensajeError += 'Error de conexión. ';
+    }
+    
+    mensajeError += 'Por favor, verifica tus datos e intenta nuevamente.';
+    
+    showNotification(mensajeError, 'error');
+    
+    console.group('🔍 Debug Info');
+    console.log('Cart Items:', cartItems);
+    console.log('Form Data:', {
+      cliente_final: document.getElementById('cliente_final').value,
+      rut_documento: document.getElementById('rut_documento').value,
+      email: document.getElementById('email').value,
+      telefono: document.getElementById('telefono').value,
+      comuna: document.getElementById('comuna').value,
+      direccion: document.getElementById('direccion').value,
+      region: document.getElementById('region').value
+    });
+    console.groupEnd();
+    
+  } finally {
+    document.getElementById('loading-overlay').classList.add('hidden');
+  }
+}
+
+// Generar número de orden de 8 dígitos
+function generateOrderNumber() {
+  const timestamp = Date.now().toString().slice(-6); // Últimos 6 dígitos del timestamp
+  const random = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+  return `JH${timestamp}${random}`; // Formato: JH + timestamp + random
+}
+
+function validateStep4() {
+  // Validar que hay productos en el carrito
+  if (!cartItems || cartItems.length === 0) {
+    showNotification('No hay productos en el carrito', 'error');
+    return false;
+  }
+  
+  // Validar que todos los campos obligatorios están llenos
+  const requiredFields = [
+    { id: 'cliente_final', name: 'Nombre' },
+    { id: 'rut_documento', name: 'RUT' },
+    { id: 'email', name: 'Email' },
+    { id: 'telefono', name: 'Teléfono' },
+    { id: 'region', name: 'Región' },
+    { id: 'comuna', name: 'Comuna' },
+    { id: 'direccion', name: 'Dirección' }
+  ];
+  
+  for (const field of requiredFields) {
+    const element = document.getElementById(field.id);
+    if (!element || !element.value.trim()) {
+      showNotification(`El campo ${field.name} es obligatorio`, 'error');
+      return false;
+    }
+  }
+  
+  // Validar que hay un método de pago seleccionado
+  const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+  if (!paymentMethod) {
+    showNotification('Selecciona un método de pago', 'error');
+    return false;
+  }
+  
+  // Validar precios de productos
+  for (const item of cartItems) {
+    const precio = parseFloat(item.precio_venta || item.precio || 0);
+    if (precio <= 0) {
+      showNotification(`El producto "${item.nombre}" no tiene un precio válido`, 'error');
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+// Sistema de notificaciones
+function showNotification(mensaje, tipo = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `fixed top-24 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300 max-w-sm glass-subtle border ${
+    tipo === 'success' ? 'border-green-500/50 bg-green-500/20 text-green-100' : 
+    tipo === 'error' ? 'border-red-500/50 bg-red-500/20 text-red-100' : 
+    'border-blue-500/50 bg-blue-500/20 text-blue-100'
+  }`;
+  
+  notification.innerHTML = `
+    <div class="flex items-center gap-3">
+      <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+      <span class="text-sm">${mensaje}</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.transform = 'translateX(100%)';
+    setTimeout(() => notification.remove(), 300);
+  }, 4000);
+}
+</script>
+
+<style>
+/* Dark theme colors */
+.bg-dark-700 { background-color: #374151; }
+.bg-dark-800 { background-color: #1f2937; }
+.text-brand-coral-400 { color: #fb7185; }
+.text-brand-coral-500 { color: #f43f5e; }
+.bg-brand-coral-500 { background-color: #f43f5e; }
+.border-brand-coral-500 { border-color: #f43f5e; }
+
+/* Glass effect */
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Premium button styles */
+.btn-premium {
+  background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Input focus styles */
+input:focus, select:focus {
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.1);
+}
+
+/* Payment method selection */
+.payment-method.border-brand-coral-500 {
+  background: rgba(244, 63, 94, 0.1);
+  border-color: #f43f5e;
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .md\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .sticky {
+    position: relative;
+  }
+}
+
+/* Loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Step animation */
+.step-content {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+{% endblock %}

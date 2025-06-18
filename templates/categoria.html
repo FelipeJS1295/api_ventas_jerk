@@ -1,0 +1,111 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}{{ categoria_titulo }} - Jerk Home{% endblock %}
+
+{% block description %}{{ categoria_descripcion }} - Calidad premium y diseño moderno en Jerk Home.{% endblock %}
+
+{% block breadcrumb %}
+<section class="bg-warm-gray-100 py-8 mt-20">
+  <div class="container mx-auto px-6">
+    <nav class="flex" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+          <a href="/ecomerce" class="inline-flex items-center text-sm font-medium text-warm-gray-700 hover:text-brand-coral-600">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+            </svg>
+            Inicio
+          </a>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="w-6 h-6 text-warm-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="ml-1 text-sm font-medium text-warm-gray-500 md:ml-2">{{ categoria_titulo }}</span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Funciones específicas para la página de categoría
+function agregarAlCarrito(productoId, nombreProducto) {
+  const button = event.target.closest('button');
+  
+  // Animación de carga
+  const originalContent = button.innerHTML;
+  button.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>';
+  
+  // Simular llamada al servidor
+  setTimeout(() => {
+    button.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> ¡Añadido!';
+    button.classList.add('bg-green-500');
+    button.classList.remove('btn-primary');
+    
+    // Actualizar contador del carrito en el header
+    const cartCounter = document.querySelector('header .animate-gentle-bounce');
+    if (cartCounter) {
+      const currentCount = parseInt(cartCounter.textContent) || 0;
+      cartCounter.textContent = currentCount + 1;
+    }
+    
+    // Restaurar botón después de 2 segundos
+    setTimeout(() => {
+      button.innerHTML = originalContent;
+      button.classList.remove('bg-green-500');
+      button.classList.add('btn-primary');
+    }, 2000);
+    
+    // Aquí harías la llamada real al servidor
+    console.log(`Producto ${productoId} (${nombreProducto}) añadido al carrito`);
+    
+  }, 1000);
+}
+
+function toggleFavorito(productoId) {
+  const button = event.target.closest('button');
+  const icon = button.querySelector('svg');
+  
+  // Toggle del estado visual
+  if (icon.classList.contains('fill-current')) {
+    icon.classList.remove('fill-current');
+    icon.setAttribute('fill', 'none');
+    console.log(`Producto ${productoId} removido de favoritos`);
+  } else {
+    icon.classList.add('fill-current');
+    icon.setAttribute('fill', 'currentColor');
+    console.log(`Producto ${productoId} añadido a favoritos`);
+  }
+  
+  // Aquí harías la llamada al servidor para guardar en favoritos
+}
+
+// Filtros de productos
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('button[class*="bg-"]');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remover clase activa de todos los botones
+      filterButtons.forEach(btn => {
+        btn.classList.remove('bg-brand-coral-500', 'text-white');
+        btn.classList.add('bg-warm-gray-200', 'text-warm-gray-700');
+      });
+      
+      // Añadir clase activa al botón clickeado
+      this.classList.remove('bg-warm-gray-200', 'text-warm-gray-700');
+      this.classList.add('bg-brand-coral-500', 'text-white');
+      
+      // Aquí implementarías la lógica de filtrado
+      const filterType = this.textContent.trim();
+      console.log(`Filtrar por: ${filterType}`);
+    });
+  });
+});
+</script>
+{% endblock %}

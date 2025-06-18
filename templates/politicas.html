@@ -1,0 +1,37 @@
+{% extends "base_ecomerce.html" %}
+
+{% block title %}Términos, Privacidad y Cookies - Jerk Home{% endblock %}
+
+{% block description %}Conoce nuestras políticas de privacidad, uso de cookies y condiciones generales en Jerk Home.{% endblock %}
+
+{% block content %}
+<section class="py-24 bg-gradient-to-b from-[#1a0e0a] to-[#0d0603] text-white">
+  <div class="max-w-4xl mx-auto px-6 space-y-16">
+
+    <div>
+      <h1 class="text-4xl font-bold mb-4">Política de Privacidad</h1>
+      <p class="text-white/70 leading-relaxed">
+        En Jerk Home valoramos y respetamos tu privacidad. Los datos que recopilamos son utilizados únicamente para fines de contacto, procesamiento de pedidos y mejora del servicio. Nunca compartiremos ni venderemos tu información personal a terceros sin tu consentimiento expreso.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-3xl font-semibold mb-4">Términos y Condiciones</h2>
+      <p class="text-white/70 leading-relaxed">
+        Al acceder a nuestro sitio, aceptas cumplir con nuestras condiciones de uso. Todos los productos están sujetos a disponibilidad. Nos reservamos el derecho de modificar precios, políticas o contenidos sin previo aviso. Las imágenes y descripciones son referenciales.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-3xl font-semibold mb-4">Uso de Cookies</h2>
+      <p class="text-white/70 leading-relaxed">
+        Utilizamos cookies para personalizar tu experiencia, analizar el tráfico del sitio y mejorar nuestros servicios. Puedes aceptar o rechazar las cookies desde la configuración de tu navegador. Al continuar navegando en nuestro sitio, aceptas el uso de cookies bajo estos términos.
+      </p>
+    </div>
+
+    <div class="pt-8 border-t border-white/10 text-sm text-white/60">
+      Última actualización: {{ now().strftime('%d/%m/%Y') }}
+    </div>
+  </div>
+</section>
+{% endblock %}
