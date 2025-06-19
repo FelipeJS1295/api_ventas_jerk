@@ -146,33 +146,32 @@
         
         <!-- Imagen del Producto -->
         <div class="relative aspect-[4/3] overflow-hidden">
-          {% if producto.imagen %}
-          <img 
-            src="{{ producto.imagen }}" 
-            alt="{{ producto.nombre }}"
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <div class="w-full h-full bg-gradient-to-br from-dark-700 to-dark-600 flex items-center justify-center" style="display:none;">
-            <i class="fas fa-image text-gray-500 text-4xl"></i>
-          </div>
-          {% elif producto.img_1 %}
-          <img 
-            src="{{ producto.img_1 }}" 
-            alt="{{ producto.nombre }}"
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <div class="w-full h-full bg-gradient-to-br from-dark-700 to-dark-600 flex items-center justify-center" style="display:none;">
-            <i class="fas fa-image text-gray-500 text-4xl"></i>
-          </div>
-          {% else %}
-          <div class="w-full h-full bg-gradient-to-br from-dark-700 to-dark-600 flex items-center justify-center">
-            <i class="fas fa-image text-gray-500 text-4xl"></i>
-          </div>
-          {% endif %}
+        <img 
+          src="/images/{{ producto.imagen }}" 
+          alt="{{ producto.nombre }}"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <div class="w-full h-full bg-gradient-to-br from-dark-700 to-dark-600 flex items-center justify-center" style="display:none;">
+          <i class="fas fa-image text-gray-500 text-4xl"></i>
+        </div>
+      {% elif producto.img_1 %}
+        <img 
+          src="/images/{{ producto.img_1 }}" 
+          alt="{{ producto.nombre }}"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <div class="w-full h-full bg-gradient-to-br from-dark-700 to-dark-600 flex items-center justify-center" style="display:none;">
+          <i class="fas fa-image text-gray-500 text-4xl"></i>
+        </div>
+      {% else %}
+        <div class="w-full h-full bg-gradient-to-br from-dark-700 to-dark-600 flex items-center justify-center">
+          <i class="fas fa-image text-gray-500 text-4xl"></i>
+        </div>
+      {% endif %}
           
           <!-- Badge de Descuento -->
           {% if producto.precio_descuento and producto.precio_descuento > 0 %}
@@ -668,16 +667,6 @@ function debounce(func, wait) {
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
-}
-
-function convertirImgurURL(url) {
-  if (!url || url.includes('i.imgur.com')) return url;
-  
-  const match = url.match(/#([a-zA-Z0-9]+)/);
-  if (match) {
-    return `https://i.imgur.com/${match[1]}.jpg`;
-  }
-  return url;
 }
 
 </script>
