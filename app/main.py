@@ -120,7 +120,10 @@ async def health_check():
 @app.get("/debug/imagenes")
 async def debug_imagenes():
     """Endpoint de debug para verificar configuración de imágenes"""
+    import os
+    
     try:
+        imagenes_path = "/var/www/imagenes_jhk"
         debug_info = {
             "imagenes_path": imagenes_path,
             "imagenes_exists": os.path.exists(imagenes_path),
