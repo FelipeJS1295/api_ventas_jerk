@@ -73,10 +73,10 @@ def procesar_url_imagen(img_path):
     return final_url
 
 # Configuración de directorios
-UPLOAD_DIR = Path("/var/www/v4_python_jerk/static/images/productos")
-THUMBNAILS_DIR = Path("/var/www/v4_python_jerk/static/images/productos/thumbnails")
-TEMP_DIR = Path("/var/www/v4_python_jerk/uploads/temp")
-BASE_URL = "http://147.79.74.244:8080/images/productos"
+UPLOAD_DIR = Path("/var/www/imagenes_jhk/productos")
+THUMBNAILS_DIR = Path("/var/www/imagenes_jhk/productos/thumbnails")
+TEMP_DIR = Path("/var/www/jerkhome/uploads/temp")
+BASE_URL = "/imagenes/productos"
 
 def obtener_conexion_segura():
     """
