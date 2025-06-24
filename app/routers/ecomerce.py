@@ -21,8 +21,7 @@ logger = logging.getLogger(__name__)
 def procesar_url_imagen(img_path):
     """
     Convierte rutas de imagen de la BD a URLs accesibles
-    Las imágenes están físicamente en /var/www/imagenes_jhk/productos/
-    Y se sirven a través de /imagenes/productos/ configurado en Nginx
+    Las imágenes se sirven a través del dominio configurado en Nginx
     """
     if not img_path:
         return "/static/images/no-image.jpg"
@@ -37,13 +36,6 @@ def procesar_url_imagen(img_path):
     if not clean_path:
         return "/static/images/no-image.jpg"
     
-    # Detectar si estamos en desarrollo local o producción
-    is_local_dev = os.getenv('ENVIRONMENT', 'production') == 'development'
-    
-    if is_local_dev:
-        # En desarrollo local, usar imagen por defecto
-        return "/static/images/no-image.jpg"
-    
     # Si la ruta ya está en el formato correcto, devolverla directamente
     if clean_path.startswith('/imagenes/productos/'):
         logger.debug(f"🖼️ Ruta ya correcta: {clean_path}")
@@ -53,28 +45,20 @@ def procesar_url_imagen(img_path):
     filename = None
     
     if clean_path.startswith('imagenes/productos/'):
-        # Sin barra inicial: imagenes/productos/archivo.jpg
         filename = clean_path.replace('imagenes/productos/', '')
     elif clean_path.startswith('/imagenes_jhk/productos/'):
-        # Formato legacy: /imagenes_jhk/productos/archivo.jpg
         filename = clean_path.replace('/imagenes_jhk/productos/', '')
     elif clean_path.startswith('imagenes_jhk/productos/'):
-        # Sin barra inicial: imagenes_jhk/productos/archivo.jpg
         filename = clean_path.replace('imagenes_jhk/productos/', '')
     elif clean_path.startswith('/images/productos/'):
-        # Formato antiguo: /images/productos/archivo.jpg
         filename = clean_path.replace('/images/productos/', '')
     elif clean_path.startswith('images/productos/'):
-        # Sin barra inicial: images/productos/archivo.jpg
         filename = clean_path.replace('images/productos/', '')
     elif 'productos/' in clean_path:
-        # Cualquier variación que contenga productos/
         filename = clean_path.split('productos/')[-1]
     elif '/' not in clean_path and '.' in clean_path:
-        # Solo el nombre del archivo: archivo.jpg
         filename = clean_path
     else:
-        # Si no reconoce el formato, usar imagen por defecto
         logger.warning(f"⚠️ Formato de imagen no reconocido: {clean_path}")
         return "/static/images/no-image.jpg"
     
@@ -82,13 +66,8 @@ def procesar_url_imagen(img_path):
         logger.warning(f"⚠️ No se pudo extraer filename de: {clean_path}")
         return "/static/images/no-image.jpg"
     
-    # Limpiar filename de caracteres extraños
-    filename = filename.strip()
-    
-    # Construir URL final
-    # Las imágenes se sirven desde /imagenes/productos/ gracias a Nginx
-    # que apunta físicamente a /var/www/imagenes_jhk/productos/
-    final_url = f"/imagenes/productos/{filename}"
+    # Construir URL final - Se sirve a través de Nginx en el dominio
+    final_url = f"/imagenes/productos/{filename.strip()}"
     
     logger.debug(f"🖼️ Imagen procesada: {clean_path} -> {final_url}")
     return final_url
