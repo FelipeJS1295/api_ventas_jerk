@@ -20,8 +20,7 @@ logger = logging.getLogger(__name__)
 
 def procesar_url_imagen(img_path):
     """
-    Convierte rutas de imagen de la BD a URLs accesibles
-    Basado en el formato: /images/productos/archivo.jpg
+    Convierte rutas de imagen de la BD a URLs accesibles desde /var/www/imagenes_jhk/productos
     """
     if not img_path:
         return "/static/images/no-image.jpg"
@@ -33,46 +32,48 @@ def procesar_url_imagen(img_path):
     # Limpiar la ruta
     clean_path = img_path.strip()
     
-    # Las imágenes en tu BD están como: /images/productos/archivo.jpg
-    # Necesitamos convertirlas a URLs del VPS externo
+    if not clean_path:
+        return "/static/images/no-image.jpg"
     
     # Detectar si estamos en desarrollo local o producción
     is_local_dev = os.getenv('ENVIRONMENT', 'development') == 'development'
     
     if is_local_dev:
-        # 🏠 DESARROLLO LOCAL - Mostrar imagen por defecto
-        # Ya que las imágenes están en otro VPS
+        # En desarrollo local, usar imagen por defecto
         return "/static/images/no-image.jpg"
+    
+    # Extraer el nombre del archivo desde diferentes formatos posibles
+    filename = None
+    
+    if clean_path.startswith('/imagenes/productos/'):
+        # Formato correcto: /imagenes/productos/archivo.jpg (como se guarda en productos.py)
+        filename = clean_path.replace('/imagenes/productos/', '')
+    elif clean_path.startswith('imagenes/productos/'):
+        # Formato: imagenes/productos/archivo.jpg
+        filename = clean_path.replace('imagenes/productos/', '')
+    elif clean_path.startswith('/imagenes_jhk/productos/'):
+        # Formato legacy: /imagenes_jhk/productos/archivo.jpg
+        filename = clean_path.replace('/imagenes_jhk/productos/', '')
+    elif clean_path.startswith('/images/productos/'):
+        # Formato legacy: /images/productos/archivo.jpg
+        filename = clean_path.replace('/images/productos/', '')
+    elif 'productos/' in clean_path:
+        # Por si hay variaciones en la ruta
+        filename = clean_path.split('productos/')[-1]
+    elif '/' not in clean_path and '.' in clean_path:
+        # Solo el nombre del archivo
+        filename = clean_path
     else:
-        # 🌐 PRODUCCIÓN VPS - Usar URL del servidor de imágenes
-        
-        # Extraer solo el nombre del archivo de la ruta
-        filename = None
-        
-        if clean_path.startswith('/images/productos/'):
-            # Ruta como: /images/productos/1_a1b6b386.jpg
-            filename = clean_path.replace('/images/productos/', '')
-        elif clean_path.startswith('images/productos/'):
-            # Ruta como: images/productos/1_a1b6b386.jpg
-            filename = clean_path.replace('images/productos/', '')
-        elif 'productos/' in clean_path:
-            # Por si hay variaciones en la ruta
-            filename = clean_path.split('productos/')[-1]
-        elif '/' not in clean_path and '.' in clean_path:
-            # Solo el nombre del archivo
-            filename = clean_path
-        else:
-            # Si no tiene el formato esperado, usar imagen por defecto
-            logger.warning(f"⚠️ Formato de imagen no reconocido: {clean_path}")
-            return "/static/images/no-image.jpg"
-        
-        if not filename or not filename.strip():
-            return "/static/images/no-image.jpg"
-        
-        # Construir URL del VPS donde están las imágenes
-        # URL del otro proyecto que sirve las imágenes
-        base_url = os.getenv('EXTERNAL_IMAGE_URL', 'http://147.79.74.244:8080')
-        return f"{base_url}/static/images/productos/{filename.strip()}"
+        # Si no tiene el formato esperado, usar imagen por defecto
+        logger.warning(f"⚠️ Formato de imagen no reconocido: {clean_path}")
+        return "/static/images/no-image.jpg"
+    
+    if not filename or not filename.strip():
+        return "/static/images/no-image.jpg"
+    
+    # Las imágenes están servidas directamente por Nginx desde /var/www/imagenes_jhk/productos
+    # y son accesibles en /imagenes/productos/ según la configuración de Nginx
+    return f"/imagenes/productos/{filename.strip()}"
 
 # Configuración de directorios
 UPLOAD_DIR = Path("/var/www/v4_python_jerk/static/images/productos")
@@ -83,15 +84,13 @@ BASE_URL = "http://147.79.74.244:8080/images/productos"
 def obtener_conexion_segura():
     """
     Función helper para obtener conexión con manejo de errores.
-    CORREGIDA: Ya no hay recursión infinita.
     """
     try:
-        conn = conectar_mysql()  # 🔥 AQUÍ ESTABA EL ERROR - antes decía obtener_conexion_segura()
+        conn = conectar_mysql()
         if conn is None:
             logger.error("❌ No se pudo conectar a la base de datos")
             raise HTTPException(status_code=500, detail="Error de conexión a la base de datos")
         
-        # Verificar que la conexión esté activa
         if not conn.is_connected():
             logger.error("❌ La conexión no está activa")
             raise HTTPException(status_code=500, detail="Conexión a la base de datos inactiva")
@@ -118,7 +117,7 @@ def root(request: Request):
 @router.get("/productos", response_class=HTMLResponse)
 def vista_productos(request: Request, tipo: Optional[str] = Query(None)):
     """
-    Página principal de productos con filtrado ULTRA ESTRICTO.
+    Página principal de productos con filtrado.
     """
     conn = None
     cursor = None
@@ -129,7 +128,7 @@ def vista_productos(request: Request, tipo: Optional[str] = Query(None)):
         conn = obtener_conexion_segura()
         cursor = conn.cursor(dictionary=True, buffered=True)
 
-        # 🔥 QUERY ULTRA ESTRICTA - ELIMINA CUALQUIER PRODUCTO INVÁLIDO
+        # Query para obtener productos válidos
         base_query = """
             SELECT 
                 id,
@@ -146,32 +145,19 @@ def vista_productos(request: Request, tipo: Optional[str] = Query(None)):
                 COALESCE(visitas, 0) as visitas
             FROM productos
             WHERE 1=1
-                -- ✅ Tipo de venta válido
                 AND (tipo_producto_venta = 'local' OR tipo_producto_venta IS NULL)
-                
-                -- ✅ Imagen válida (NO NULL, NO vacía, NO solo espacios)
                 AND img_1 IS NOT NULL 
                 AND img_1 != '' 
                 AND TRIM(img_1) != ''
                 AND LENGTH(TRIM(img_1)) > 5
-                
-                -- ✅ Precio válido (NO NULL, NO cero, mayor a 0)
                 AND precio_venta IS NOT NULL
                 AND precio_venta > 0
-                
-                -- ✅ Nombre válido
                 AND nombre IS NOT NULL 
                 AND TRIM(nombre) != ''
-                
-                -- 🚫 EXCLUIR EXPLÍCITAMENTE PRODUCTOS PROBLEMÁTICOS
-                AND nombre NOT LIKE '%liverpool%'
-                AND nombre NOT LIKE '%Liverpool%'
-                AND nombre NOT LIKE '%LIVERPOOL%'
         """
 
         params = []
         
-        # Agregar filtro por tipo si corresponde
         if tipo:
             base_query += " AND tipo_producto LIKE %s"
             params.append(f"%{tipo}%")
@@ -181,20 +167,10 @@ def vista_productos(request: Request, tipo: Optional[str] = Query(None)):
             LIMIT 100
         """
 
-        logger.info(f"📝 Ejecutando query ultra estricta")
-        logger.info(f"📝 Parámetros: {params}")
-
         cursor.execute(base_query, params)
         productos = cursor.fetchall()
 
-        logger.info(f"✅ Se encontraron {len(productos)} productos VÁLIDOS (sin Liverpool)")
-
-        # Debug: verificar que Liverpool no esté en los resultados
-        liverpool_count = sum(1 for p in productos if 'liverpool' in p['nombre'].lower())
-        if liverpool_count > 0:
-            logger.warning(f"⚠️ ALERTA: Se encontraron {liverpool_count} productos Liverpool en los resultados")
-        else:
-            logger.info(f"✅ CONFIRMADO: Ningún producto Liverpool en los resultados")
+        logger.info(f"✅ Se encontraron {len(productos)} productos válidos")
 
         # Procesar URLs de imágenes
         for producto in productos:
@@ -203,6 +179,7 @@ def vista_productos(request: Request, tipo: Optional[str] = Query(None)):
                     imagen_limpia = producto['imagen'].strip()
                     if imagen_limpia and len(imagen_limpia) > 5:
                         producto['imagen'] = procesar_url_imagen(imagen_limpia)
+                        logger.debug(f"🖼️ Imagen procesada: {imagen_limpia} -> {producto['imagen']}")
                     else:
                         logger.warning(f"⚠️ Imagen inválida para producto {producto.get('id')}")
                         producto['imagen'] = "/static/images/no-image.jpg"
@@ -601,7 +578,7 @@ def vista_decoracion(request: Request):
 @router.get("/producto/{producto_id}", response_class=HTMLResponse)
 def vista_producto_detalle(request: Request, producto_id: int):
     """
-    Página de detalle de un producto específico (solo local con imagen).
+    Página de detalle de un producto específico.
     """
     conn = None
     cursor = None
@@ -648,7 +625,9 @@ def vista_producto_detalle(request: Request, producto_id: int):
             img_key = f'img_{i}'
             if producto.get(img_key):
                 try:
-                    producto[img_key] = procesar_url_imagen(producto[img_key])
+                    original_path = producto[img_key]
+                    producto[img_key] = procesar_url_imagen(original_path)
+                    logger.debug(f"🖼️ {img_key}: {original_path} -> {producto[img_key]}")
                 except Exception as e:
                     logger.warning(f"⚠️ Error procesando {img_key}: {e}")
                     producto[img_key] = "/static/images/no-image.jpg"
