@@ -174,16 +174,18 @@ def vista_productos(request: Request, tipo: Optional[str] = Query(None)):
             try:
                 if producto.get('imagen'):
                     imagen_limpia = producto['imagen'].strip()
+                    logger.info(f"🔍 ANTES - Producto {producto.get('id')}: {imagen_limpia}")
                     if imagen_limpia and len(imagen_limpia) > 5:
                         producto['imagen'] = procesar_url_imagen(imagen_limpia)
-                        logger.debug(f"🖼️ Imagen procesada: {imagen_limpia} -> {producto['imagen']}")
+                        logger.info(f"✅ DESPUÉS - Producto {producto.get('id')}: {producto['imagen']}")
                     else:
                         logger.warning(f"⚠️ Imagen inválida para producto {producto.get('id')}")
                         producto['imagen'] = "/static/images/no-image.jpg"
                 else:
+                    logger.warning(f"⚠️ Sin imagen para producto {producto.get('id')}")
                     producto['imagen'] = "/static/images/no-image.jpg"
             except Exception as e:
-                logger.warning(f"⚠️ Error procesando imagen para producto {producto.get('id')}: {e}")
+                logger.error(f"❌ Error procesando imagen para producto {producto.get('id')}: {e}")
                 producto['imagen'] = "/static/images/no-image.jpg"
 
         # Título dinámico
